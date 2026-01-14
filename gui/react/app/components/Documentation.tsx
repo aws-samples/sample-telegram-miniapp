@@ -20,108 +20,32 @@ function Documentation() {
 
     const reactExamples: CodeExample[] = [
         {
+            title: 'Tools',
+            description: 'Make sure you have all the nesseccary tools installed:',
+            code: `aws --version\ngit --version\nnode --version\npnpm --version`,
+        },
+        {
             title: 'Installation',
-            description: 'Install dependencies for the entire monorepo',
-            code: `pnpm install`,
+            description: 'Install Mini App template to "my-app" folder',
+            code: `npx --yes https://github.com/aws-samples/sample-telegram-miniapp my-app`,
+        },
+        {
+            title: 'Configure your Mini App',
+            description: 'Use generated Mini App URL to configure your Bot and Mini App',
+            code: `# Open Telegram's @BotFather:\nhttps://t.me/botfather`,
         },
         {
             title: 'Local Development',
             description: 'Start the React Router v7 dev server with hot reload',
-            code: `cd gui/react
-pnpm dev
-# Starts on http://localhost:5173`,
-        },
-        {
-            title: 'Type Checking',
-            description: 'Generate types and run TypeScript compiler',
-            code: `cd gui/react
-pnpm typecheck`,
-        },
-        {
-            title: 'Build for Production',
-            description: 'Build the React app for deployment',
-            code: `cd gui/react
-pnpm build`,
-        },
-        {
-            title: 'Configure Frontend',
-            description: 'Set React as the frontend in app.yaml',
-            code: `app:
-  name: MiniApp
-  frontend: gui/react  # Choose React Router v7
-  firewall: true`,
-        },
-        {
-            title: 'Deploy to AWS',
-            description: 'Build all packages and deploy via CDK',
-            code: `# Build all packages
-pnpm run -r build
-
-# Deploy CDK stacks
-cd infra/cdk
-pnpm run deploy`,
-        },
-        {
-            title: 'Telegram WebApp Hook',
-            description: 'Using the Telegram context in React components',
-            code: `import { useOutletContext } from 'react-router'
-import type { TelegramState } from '~/auth/telegram'
-
-function MyComponent() {
-  const { webapp, session } = useOutletContext<TelegramState>()
-
-  const handleClick = () => {
-    webapp?.HapticFeedback.impactOccurred('medium')
-  }
-
-  return <button onClick={handleClick}>Click me</button>
-}`,
+            code: `# Install dependencies:\npnpm install\n\n# Build packages:\npnpm build\n\n# Start dev server on http://localhost:5173\npnpm dev`,
         },
     ];
 
     const sveltekitExamples: CodeExample[] = [
         {
-            title: 'Installation',
-            description: 'Install dependencies for the entire monorepo',
-            code: `pnpm install`,
-        },
-        {
-            title: 'Local Development',
-            description: 'Start the SvelteKit v5 dev server with hot reload',
-            code: `cd gui/svelte
-pnpm dev
-# Starts on http://localhost:5173`,
-        },
-        {
-            title: 'Configure Frontend',
-            description: 'Set SvelteKit as the frontend in app.yaml',
-            code: `app:
-  name: MiniApp
-  frontend: gui/svelte  # Choose SvelteKit v5
-  firewall: true`,
-        },
-        {
-            title: 'Deploy to AWS',
-            description: 'Build all packages and deploy via CDK',
-            code: `# Bootstrap CDK into your region of choice (if needed; during the very first CDK deployment)
-pnpm run bootstrap
-# Deploy CDK stacks
-pnpm run deploy`,
-        },
-        {
-            title: 'Telegram WebApp Store',
-            description: 'Using Telegram store in Svelte components',
-            code: `<script lang="ts">
-  import { telegramStore } from '$lib/stores/telegram'
-
-  function handleClick() {
-    $telegramStore.webapp?.HapticFeedback.impactOccurred('medium')
-  }
-</script>
-
-<button on:click={handleClick}>
-  Click me
-</button>`,
+            title: 'Comming Soom...',
+            description: 'SvelteKit v5',
+            code: `SvelteKit v5 code sample is comming soon!`,
         },
     ];
 
