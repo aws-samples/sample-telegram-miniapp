@@ -445,8 +445,7 @@ export async function setupVSCodeSettings(target) {
 
 		settings['workbench.editorAssociations'] = {
 			...(settings['workbench.editorAssociations'] || {}),
-			'docs/*.md': 'vscode.markdown.preview.editor',
-			'/{REPORT,README,THIRD-PARTY-LICENSES}.md': 'vscode.markdown.preview.editor'
+			'{REPORT,README,THIRD-PARTY-LICENSES}.md': 'vscode.markdown.preview.editor'
 		}
 
 		await writeFile(settingsPath, JSON.stringify(settings, null, '\t'))
