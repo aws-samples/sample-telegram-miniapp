@@ -52,7 +52,7 @@ The goal of this sample is to allow developers:
 aws login
 
 # check prerequisites and deploy Mini App in a guided mode:
-npx --yes git+https://github.com/aws-samples/sample-telegram-miniapp my-app
+npx --yes https://github.com/aws-samples/sample-telegram-miniapp my-app
 ~~~
 
 **\*Note:** see [Supported environments](#supported-environments) for details on deployment environment prerequisites
