@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 24
+    commands:
+      - npm install -g corepack@latest
+      - corepack enable
+      - corepack prepare pnpm@latest --activate
+      - pnpm --version
+  pre_build:
+    commands:
+      - echo Installing dependencies...
+      - pnpm install --frozen-lockfile
+  build:
+    commands:
+      - echo Running build scripts...
+      - pnpm build
+      - echo Deploying with CDK...
+      - pnpm run deploy --no-notices
+  post_build:
+    commands:
+      - echo Initializing the app...
+      - pnpm run setup
+
+cache:
+  paths:    
+    - '~/.pnpm-store/**/*'

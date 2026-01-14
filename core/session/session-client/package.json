@@ -1,0 +1,24 @@
+{
+	"private": true,
+	"name": "@core/session-client",
+	"version": "0.0.1",
+	"license": "MIT-0",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc"
+	},
+	"devDependencies": {
+		"@core/session-types": "workspace:*",
+		"@tma.js/types": "^1.0.2",
+		"@types/node": "^25.0.7",
+		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"@core/tools": "workspace:*"
+	}
+}

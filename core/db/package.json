@@ -1,0 +1,26 @@
+{
+	"private": true,
+	"name": "@core/db",
+	"version": "0.0.2",
+	"license": "MIT-0",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc"
+	},
+	"devDependencies": {
+		"@types/node": "^25.0.7",
+		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"@aws-lambda-powertools/logger": "^2.30.2",
+		"@aws-sdk/client-dynamodb": "^3.967.0",
+		"@aws-sdk/lib-dynamodb": "^3.967.0",
+		"@core/constants": "workspace:*",
+		"@core/tools-server": "workspace:*"
+	}
+}

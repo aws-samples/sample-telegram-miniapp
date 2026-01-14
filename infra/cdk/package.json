@@ -1,0 +1,52 @@
+{
+    "name": "@infra/cdk",
+    "version": "1.0.0",
+    "license": "MIT-0",
+    "type": "module",
+    "bin": {
+        "infra": "app/infra.ts"
+    },
+    "files": [
+        "app/",
+        "stacks/",
+        "*.json",
+        "*.d.ts",
+        "*.ts"
+    ],
+    "scripts": {
+        "types": "tsc",
+        "watch": "tsc -w",
+        "deploy": "cdk deploy --all --require-approval never",
+        "bootstrap": "cdk bootstrap",
+        "synth": "cdk synth",
+        "setup": "tsx app/setup.ts",
+        "report": "tsx app/report.ts"
+    },
+    "devDependencies": {
+        "@core/types": "workspace:*",
+        "@types/cross-spawn": "^6.0.6",
+        "@types/node": "^25.0.7",
+        "@types/node-fetch": "^2.6.13",
+        "tsx": "^4.21.0",
+        "typescript": "^5.9.3"
+    },
+    "dependencies": {
+        "@aws-sdk/client-cloudfront": "^3.967.0",
+        "@aws-sdk/client-wafv2": "^3.967.0",
+        "@clack/prompts": "^0.11.0",
+        "@core/constants": "workspace:*",
+        "@core/session-server": "workspace:*",
+        "@core/tools": "workspace:*",
+        "@core/tools-server": "workspace:*",
+        "@core/vault": "workspace:*",
+        "@gui/react": "workspace:*",
+        "@tg/bot": "workspace:*",
+        "aws-cdk": "^2.1100.3",
+        "aws-cdk-lib": "^2.234.1",
+        "cdk-nag": "^2.37.55",
+        "constructs": "^10.4.4",
+        "cross-spawn": "^7.0.6",
+        "grammy": "^1.39.2",
+        "picocolors": "^1.1.1"
+    }
+}

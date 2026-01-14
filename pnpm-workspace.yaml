@@ -1,0 +1,6 @@
+packages:
+  - core/**
+  - bot/**
+  - gui/**
+  - infra/**
+  - '!infra/**/cdk.out/**'

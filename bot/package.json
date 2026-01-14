@@ -1,0 +1,33 @@
+{
+	"private": true,
+	"name": "@tg/bot",
+	"version": "0.0.1",
+	"license": "MIT-0",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc && esbuild src/lambda.ts --bundle --platform=node --target=node24 --format=cjs --outfile=./.lambda/index.js --external:@aws-sdk/* --external:@smithy/*",
+		"dev": "tsx src/dev.ts"
+	},
+	"devDependencies": {
+		"@aws-lambda-powertools/logger": "^2.30.2",
+		"@core/constants": "workspace:*",
+		"@core/tools": "workspace:*",
+		"@core/tools-server": "workspace:*",
+		"@core/vault": "workspace:*",
+		"@grammyjs/files": "^1.2.0",
+		"@types/aws-lambda": "^8.10.159",
+		"@types/node": "^25.0.7",
+		"esbuild": "^0.27.2",
+		"grammy": "^1.39.2",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"@aws-sdk/client-bedrock-runtime": "^3.967.0"
+	}
+}

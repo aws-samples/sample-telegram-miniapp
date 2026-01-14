@@ -1,0 +1,76 @@
+app:
+  # CloudFormation stack name and resource prefix.
+  # Must be unique within your AWS Region.
+  name: miniapp
+
+  # Frontend framework to deploy.
+  # Options: @gui/react, @gui/svelte
+  frontend: "@gui/react"
+
+aws:
+  # AWS Region for deployment (defaults to environment config if omitted).
+  region: eu-west-1
+
+  # AWS Account ID for deployment (defaults to environment config if omitted).
+  account:
+
+cdn:
+  # Enable Web Application Firewall (WAF) for CloudFront distribution.
+  # Recommended for DDoS protection. WAF is included in all CloudFront Flat-Rate Pricing Plans,
+  # including the Free Plan: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/flat-rate-pricing-plan.html
+  # Please note that you need to manually opt in to the Free Flat-Rate Plan in the AWS Management Console
+  # to benefit from its package offerings.
+  # Otherwise, standard On-Demand pricing for CloudFront and WAF is applied:
+  # https://aws.amazon.com/waf/pricing/
+  # https://aws.amazon.com/cloudfront/pricing/
+  # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/flat-rate-pricing-plan.html
+  firewall: true
+
+  # Block access from specific countries using geo-restrictions.
+  # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/georestrictions.html
+  geo:
+    deny:
+      - IQ
+      - IR
+      - KP
+      - CN
+
+bedrock:
+  # Override Bedrock region (defaults to aws.region if omitted).
+  # Use this to specify a different region for Bedrock inference.
+  region:
+
+  # Bedrock model ID or inference endpoint.
+  # Accepts model IDs, Cross-Region Inference endpoints, or these shortcuts:
+  # nova-micro, nova-lite, nova-pro, claude-haiku, claude-sonnet
+  # See: https://docs.aws.amazon.com/bedrock/
+  # Pricing: https://aws.amazon.com/bedrock/pricing/
+  model: nova-micro
+
+bot:
+  # Enable Telegram Bot chat interface alongside your MiniApp.
+  enable: true
+
+  # Bot webhook protection method. Choose between:
+  #
+  # "waf" - Web Application Firewall with:
+  #         - Telegram IP range filtering
+  #         - X-Telegram-Bot-Api-Secret-Token verification
+  #         - Rate limiting
+  #         - Advanced web protection features
+  #         Pricing: https://aws.amazon.com/waf/pricing/
+  #
+  # "cff" - CloudFront Function with:
+  #         - Telegram IP range filtering
+  #         - X-Telegram-Bot-Api-Secret-Token verification
+  #         Pricing: https://aws.amazon.com/cloudfront/pricing/
+  #
+  # WAF offers more features but higher cost (approx. $8/month + $0.60 per 1M requests).
+  # CFF is more cost-effective (approx. $0/month + $0.10 per 1M requests).
+  # It's not possible to use CloudFront Flat-Rate pricing to cover
+  # webhook protection costs because the architecture requires Lambda@Edge for the webhook stack.
+  #
+  # Telegram webhook documentation:
+  # https://core.telegram.org/bots/webhooks
+  # https://core.telegram.org/bots/api#setwebhook
+  firewall: 'cff'

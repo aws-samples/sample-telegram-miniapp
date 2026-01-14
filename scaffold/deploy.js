@@ -1,0 +1,426 @@
+import { updateAppYaml 		} from './config.js'
+import { exec,
+	     execSequence 		} from './exec.js'
+import { writeFile,
+		 readFile,
+		 rename,
+		 mkdir,
+		 cp 				} from 'fs/promises'
+import { basename, dirname	} from 'path'
+import { printDuration,
+		 validateBotToken,
+		 verifyBotToken,
+		 safeProfile,
+		 safePath,		
+		 isExist			} from './helpers.js'
+import 	 * as p		  	  	  from '@clack/prompts'
+import        pc	  	  	  from 'picocolors'
+
+
+
+
+
+export async function runDeployment(options = {}) {
+
+	const { botToken, source, target, profile, user } = options
+	const report = safePath(target, 'REPORT.md')
+    const branch = await gitDefaultBranchName('main')
+	const vscode = await detectVSCode()
+	const $ = { }
+
+	const steps = [
+		{
+			name		:`Prepare project structure`,
+			command		: () => copyProject(source, target),
+			critical	: true
+		},
+		{
+			name		:`Save user answers to app.yaml`,
+			command		: ({ logFile }) => updateAppYaml(target, { ...options, branch }, logFile).then(r => ({ ok: r || false }), error => ({ ok: false, error })),
+			critical	: true
+		},
+		{
+			name		:`Installing dependencies`,
+			command		:['pnpm', 'install'],
+			workaround	:`Please make sure that you can successfully run ${pc.bold(pc.greenBright('pnpm install'))} in the project folder "${pc.bold(target)}"`,
+			critical	: true,
+			progress	: true
+		},
+		{
+			name		:`Building packages`,
+			command		:['pnpm', 'build'],
+			critical	: true,
+			progress	: true
+		},
+		{
+			name		:`CDK bootstrap`,
+			command		:['pnpm', 'run', 'bootstrap', '--no-notices'],
+			critical	: true,
+			progress	: true
+		},
+		{
+			name		:`Stack deployment (might take 10-15 minutes to complete)`,
+			command		:['pnpm', 'run', 'deploy', '--no-notices'],
+			env			:{ BUILD_MODE: 'development' },
+			critical	: true,
+			progress	: true
+		},
+		{
+			name		:`Describe application stack`,
+			command		:['pnpm', '--silent', 'run', 'report', '--output', report],
+			context		: report => Object.assign($, {report}),
+			critical	: true
+		},
+		{
+			name		:`Bot Token`,
+			command		: () => askBotToken(botToken),
+			context		: bot => Object.assign($, {bot}),
+			critical	: true,
+			spinner		: false
+		},
+		{
+			name		:`App initialization`,
+		get command()	{ return $.bot?.token ? ['pnpm', 'run', 'setup', '--token', $.bot.token] : false },
+			critical	: true,
+			progress	: true
+		},
+		{
+			name		:`Git: setup and sync local repo`,
+		    command	    : ({ logFile }) => gitConfig({ ...$.report?.git||{}, target, profile, user, logFile }),
+			critical	: false
+		},
+		{
+			name		:`VS Code: configure markdown preview`,
+			command		: vscode ? () => setupVSCodeSettings(target) : false,
+			critical	: false
+		}
+	]
+
+	p.log.info(`Deployment has started.\nSee logs here:\n\n${pc.cyan(pc.bold(dirname(get_log_file(target))))}`)
+
+	const padIndex = 2*steps.length.toFixed().length + " of ".length
+
+	const ok = await steps.reduce(async (prevStep, i, n) => {
+
+		if (await prevStep) {
+
+			const ts = Date.now()
+			const logFile = get_log_file(target, i.name, n)
+			const s  = i.spinner !== false ? p.spinner() : undefined
+
+			s && s.start(`${pc.dim(`${n+1} of ${steps.length}`.padStart(padIndex))}: ${i.name}`)			
+
+			if (!i.command) {
+
+				s && s.stop(`${pc.dim(`${n+1} of ${steps.length}`.padStart(padIndex))}: ⏭️  ${i.name}: ${pc.bold(pc.yellowBright('skipped.'))}`)
+				return true
+			}
+
+			const { ok, json, stderr } = typeof i.command === 'function'
+				? await i.command({ logFile })
+				: await exec(i.command, {
+					cwd		: target,
+					print	: i.progress ? 20 : undefined,
+					env		: i.env || undefined,
+					logFile
+				})
+
+			if (ok) {
+
+				s && s.stop(`${pc.dim(`${n+1} of ${steps.length}`.padStart(padIndex))}: ✅ ${i.name}: ${pc.bold(pc.greenBright('done.'))} ${pc.dim(`(${printDuration(ts)})`)}`)
+
+				if (json && typeof i.context === 'function') {
+
+					i.context(json)
+				}
+
+				return true
+			}
+			else {
+
+				if (stderr) { p.log.error(`${pc.bold(pc.redBright('ERROR:'))}\n${stderr}`) }
+				s && s.stop(`${pc.dim(`${n+1} of ${steps.length}`.padStart(padIndex))}: ❌ ${i.name}: ${pc.bold(pc.redBright('Failed.'))}`)
+				if (logFile &&  typeof i.command !== 'function') { p.log.info(`Please consult log file:\n\n${logFile}`) }
+
+				return !i.critical
+			}
+		}
+
+		return false
+
+	}, Promise.resolve(true))
+
+	if (ok) {
+
+		p.log.success(`You may find some handy notes on your deployed infrastructure in this report:`)
+		p.log.message(pc.cyan(report))
+	}
+
+	p.outro(ok
+
+		? pc.bold(pc.greenBright(`✅ Deployment complete! 🚀`))
+		: pc.bold(pc.redBright('❌ Deployment has failed :('))
+	)
+
+	return ok
+}
+
+
+
+
+
+async function copyProject(source, target) {
+
+	if (await isExist(target)) {
+
+		return {
+
+			ok		: false,
+			error	: new Error(`❌ Local repository folder "${target}" does already exist. Please choose another target directory.`)
+		}
+	}
+
+	try {
+
+		const exclude = new Set([
+			"scaffold",
+			"svelte",
+			"node_modules",
+			"build",
+			"dist",
+			"cdk.out",
+			".cdk.staging",
+			".react-router",
+			".svelte-kit",
+			".git",
+			".ash",
+			".output",
+			".vercel",
+			".netlify",
+			".wrangler",
+			".lambda",
+			".s3",
+			".code",
+			".env",
+			".logs",
+			".DS_Store",
+			"Thumbs.db",
+		])
+
+		await mkdir(safePath(target, '.logs'), { recursive: true })
+
+		return cp(source, target, {
+
+			dereference	: true,
+			recursive	: true,
+			force		: true,
+			filter		: src => !exclude.has(basename(src))
+		})
+		.then(() => rename(
+			safePath(target, 'docs', 'gitignore.template'),
+			safePath(target, '.gitignore'))
+		)
+		.then(
+			() 		=> ({ ok: true }),
+			(error)	=> ({ ok: false, error })
+		)
+	}
+	catch (error) {
+
+		return { ok: false, error }
+	}
+}
+
+
+
+
+
+async function askBotToken(token) {
+
+	while(true) {
+
+		const info = token && await verifyBotToken(token)
+
+		if (info) {
+
+			p.log.info(`${pc.bold(pc.greenBright(`@${info.username}`))} (${info.first_name})`)
+
+			return {
+
+				ok: true,
+				json: { token, info }
+			}
+		}
+
+		if (token && !info) {
+
+			p.log.error(`${pc.bold(pc.red('Wrong token?'))}\nI was not able to retrieve Telegram Bot profile with the token that you have provided to me.\n\n${pc.bold(pc.red('Please try another Bot Token.'))}`)
+		}
+
+		token = await p.password({
+			message		: pc.bold('I need your Telegram Bot Token to proceed further:'),
+			mask		: '*',
+			validate	: validateBotToken(false),
+		})
+
+		if (p.isCancel(token)) {
+
+			return {
+
+				ok: false,
+				error: new Error('Cancelled by User')
+			}
+		}
+	}
+}
+
+
+
+
+
+async function gitDefaultBranchName(defaults = 'main') {
+
+	const resp = await exec(['git', 'config', '--global', '--get', 'init.defaultBranch'])
+	return resp?.ok && safeProfile(resp?.stdout?.trim() || defaults) || 'main'
+}
+
+
+
+
+
+async function gitGetUserConfigs(user) {
+
+	user = safeProfile(user) || 'anonymous'
+
+	const resp = await Promise.all(
+
+		[
+			['user.name' , user],
+			['user.email',`${user}@miniapp.sample` ]
+
+		].map(async ([p, defaults]) => {
+
+			const resp 	= await exec(['git', 'config', '--global', '--get', p])
+			const ok 	= resp?.ok || (resp?.code === 1 && resp?.stdout?.trim() === '')
+			const value = ok && resp.stdout?.trim() || ''
+			return {
+				...(resp||{}),
+				p	: p,
+				ok	: ok,
+				set	: !value ? defaults : undefined
+			}
+		})
+	)
+
+	if (resp.every(i => i?.ok)) {
+
+		return {
+
+			ok: true,
+			commands: resp
+				.filter(i => i.ok && i.p && i.set)
+				.map(i => ['git', 'config', '--local', i.p, i.set])
+		}
+	}
+
+	return resp.find(i => !i?.ok) || { ok: false }
+}
+
+
+
+
+
+async function gitConfig({ target, profile, user, http, branch, logFile }) {
+
+	if (false
+		|| !http
+		|| !branch
+		|| !user
+		|| !target
+	) {
+		return {
+
+			ok: false,
+			error: new Error(`gitConfig Error: missing required inputs: http=${http}, branch=${branch}, user=${user}, target=${target}`)
+		}
+	}
+
+	const cfg = await gitGetUserConfigs(user)	
+
+	const credentialHelper = safeProfile(profile)
+		? `!aws --profile "${safeProfile(profile)}" codecommit credential-helper $@`
+		: '!aws codecommit credential-helper $@'
+
+	return execSequence([
+
+		['git', 'init', '-b', branch],
+		...(cfg.ok && cfg.commands || []),
+		['git', 'add', '.'],
+		['git', 'commit', '--allow-empty', '-am', 'init'],
+		['git', 'config', '--local', 'credential.https://git-codecommit.*.amazonaws.com.helper', ''],
+		['git', 'config', '--local', '--add', 'credential.https://git-codecommit.*.amazonaws.com.helper', credentialHelper],
+		['git', 'config', '--local', 'credential.https://git-codecommit.*.amazonaws.com.UseHttpPath', 'true'],
+		http && ['git', 'remote', 'add', 'origin', http ],
+		http && ['git', 'push', '-u', 'origin', branch ]
+
+	], { cwd: target, logFile })
+}
+
+
+
+
+
+function get_log_file(path, text='any', n=0) {
+
+	const id = n.toFixed().padStart(2, '0')
+	const name = text.toLowerCase().replaceAll(/\s+/g, '_').replace(/[^a-z_]/g, '')
+	return safePath(path, '.logs', `${id}.${name}.log`)
+}
+
+
+
+
+
+async function detectVSCode() {
+
+	const { ok } = await exec(['code', '--version'])
+	return ok
+}
+
+
+
+
+
+export async function setupVSCodeSettings(target) {
+
+	const vscodeDir 	= safePath(target, '.vscode')
+	const settingsPath 	= safePath(vscodeDir, 'settings.json')
+
+	try {
+
+		await mkdir(vscodeDir, { recursive: true })
+
+		let settings = {}
+
+		try {
+
+			const content = await readFile(settingsPath, 'utf-8')
+			settings = JSON.parse(content)
+		}
+		catch { }
+
+		settings['workbench.editorAssociations'] = {
+			...(settings['workbench.editorAssociations'] || {}),
+			'docs/*.md': 'vscode.markdown.preview.editor',
+			'/{REPORT,README,THIRD-PARTY-LICENSES}.md': 'vscode.markdown.preview.editor'
+		}
+
+		await writeFile(settingsPath, JSON.stringify(settings, null, '\t'))
+
+		return { ok: true }
+	}
+	catch (error) {
+
+		return { ok: false, error }
+	}
+}

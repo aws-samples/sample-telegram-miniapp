@@ -1,0 +1,24 @@
+{
+	"private": true,
+	"name": "@core/constants",
+	"version": "0.0.1",
+	"license": "MIT-0",
+	"type": "module",
+	"main": "dist/const.js",
+	"types": "dist/const.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsx metadata/build.ts && tsup"
+	},
+	"devDependencies": {
+		"@core/tools": "workspace:*",
+		"@core/types": "workspace:*",
+		"@types/node": "^25.0.7",
+		"tsup": "^8.5.1",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"yaml": "^2.8.2"
+	}
+}

@@ -1,0 +1,28 @@
+{
+	"private": true,
+	"name": "@core/vault",
+	"version": "0.0.1",
+	"license": "MIT-0",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsup"
+	},
+	"devDependencies": {
+		"@core/constants": "workspace:*",
+		"@core/tools": "workspace:*",
+		"@core/tools-server": "workspace:*",
+		"@core/types": "workspace:*",
+		"@types/node": "^25.0.7",
+		"tsup": "^8.5.1"
+	},
+	"dependencies": {
+		"@aws-lambda-powertools/logger": "^2.30.2",
+		"@aws-sdk/client-secrets-manager": "^3.967.0",
+		"@aws-sdk/client-ssm": "^3.967.0"
+	}
+}

@@ -1,0 +1,42 @@
+# Node
+node_modules
+
+# Output and Staging
+.logs
+.ash
+.cdk.staging
+.react-router
+.output
+.vercel
+.netlify
+.wrangler
+.svelte-kit
+cdk.out
+/**/build
+/**/dist
+/**/.lambda
+/**/.s3
+/**/.code
+/**/server.zip
+/**/static.zip
+/**/client.zip
+/**/lambda.zip
+/**/app.config.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Agents
+.claude
+.kiro

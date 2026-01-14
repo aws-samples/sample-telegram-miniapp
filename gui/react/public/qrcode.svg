@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 580" xml:space="preserve">
+    <rect x="0" y="0" width="580" height="580" fill="rgb(0,0,0)" opacity="1.0" />
+    <defs>
+        <linearGradient id="4e7d0575-4ac7-4b93-8a9d-fdfee4639e72">
+            <stop offset="5%" stop-color="rgb(251,159,38)" />
+            <stop offset="95%" stop-color="rgb(251,194,45)" />
+        </linearGradient>
+        <mask id="4f7fce1b-397e-4e8c-8b7a-2b051c0fda4a">
+            <path d="M0,0 h140 v140 h-140 Z M20.0,20.0 h100.0 v100.0 h-100.0 Z" fill-rule="evenodd" fill="rgb(255,255,255)" />
+            <path d="M440,0 h140 v140 h-140 Z M460.0,20.0 h100.0 v100.0 h-100.0 Z" fill-rule="evenodd" fill="rgb(255,255,255)" />
+            <path d="M0,440 h140 v140 h-140 Z M20.0,460.0 h100.0 v100.0 h-100.0 Z" fill-rule="evenodd" fill="rgb(255,255,255)" />
+            <rect x="40" y="40" width="60" height="60" fill="rgb(255,255,255)" />
+            <rect x="480" y="40" width="60" height="60" fill="rgb(255,255,255)" />
+            <rect x="40" y="480" width="60" height="60" fill="rgb(255,255,255)" />
+
+            <rect x="160" y="0" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="240" y="0" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="300" y="0" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="160" y="20" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="220" y="20" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="320" y="20" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="380" y="20" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="160" y="40" width="80" height="20" fill="rgb(255,255,255)" />
+            <rect x="300" y="40" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="400" y="40" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="200" y="60" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="320" y="60" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="160" y="80" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="240" y="80" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="280" y="80" width="80" height="20" fill="rgb(255,255,255)" />
+            <rect x="400" y="80" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="180" y="100" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="220" y="100" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="300" y="100" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="360" y="100" width="20" height="40" fill="rgb(255,255,255)" />
+            <rect x="160" y="120" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="200" y="120" width="20" height="80" fill="rgb(255,255,255)" />
+            <rect x="240" y="120" width="20" height="40" fill="rgb(255,255,255)" />
+            <rect x="280" y="120" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="320" y="120" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="400" y="120" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="260" y="140" width="20" height="60" fill="rgb(255,255,255)" />
+            <rect x="300" y="140" width="80" height="20" fill="rgb(255,255,255)" />
+            <rect x="0" y="160" width="20" height="60" fill="rgb(255,255,255)" />
+            <rect x="60" y="160" width="120" height="20" fill="rgb(255,255,255)" />
+            <rect x="220" y="160" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="380" y="160" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="480" y="160" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="520" y="160" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="20" y="180" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="60" y="180" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="100" y="180" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="140" y="180" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="180" y="180" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="320" y="180" width="20" height="120" fill="rgb(255,255,255)" />
+            <rect x="380" y="180" width="20" height="100" fill="rgb(255,255,255)" />
+            <rect x="440" y="180" width="100" height="20" fill="rgb(255,255,255)" />
+            <rect x="560" y="180" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="40" y="200" width="100" height="20" fill="rgb(255,255,255)" />
+            <rect x="160" y="200" width="120" height="20" fill="rgb(255,255,255)" />
+            <rect x="300" y="200" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="400" y="200" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="500" y="200" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="40" y="220" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="100" y="220" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="140" y="220" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="240" y="220" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="260" y="220" width="20" height="60" fill="rgb(255,255,255)" />
+            <rect x="340" y="220" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="480" y="220" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="540" y="220" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="0" y="240" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="120" y="240" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="160" y="240" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="200" y="240" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="300" y="240" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="360" y="240" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="420" y="240" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="480" y="240" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="560" y="240" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="0" y="260" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="40" y="260" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="140" y="260" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="180" y="260" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="280" y="260" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="520" y="260" width="20" height="80" fill="rgb(255,255,255)" />
+            <rect x="0" y="280" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="80" y="280" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="120" y="280" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="160" y="280" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="200" y="280" width="80" height="20" fill="rgb(255,255,255)" />
+            <rect x="340" y="280" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="440" y="280" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="540" y="280" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="0" y="300" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="60" y="300" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="180" y="300" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="240" y="300" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="300" y="300" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="360" y="300" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="420" y="300" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="460" y="300" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="80" y="320" width="100" height="20" fill="rgb(255,255,255)" />
+            <rect x="280" y="320" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="340" y="320" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="0" y="340" width="20" height="60" fill="rgb(255,255,255)" />
+            <rect x="60" y="340" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="160" y="340" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="200" y="340" width="20" height="40" fill="rgb(255,255,255)" />
+            <rect x="260" y="340" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="320" y="340" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="380" y="340" width="80" height="20" fill="rgb(255,255,255)" />
+            <rect x="480" y="340" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="20" y="360" width="20" height="40" fill="rgb(255,255,255)" />
+            <rect x="80" y="360" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="120" y="360" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="240" y="360" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="300" y="360" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="400" y="360" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="440" y="360" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="60" y="380" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="280" y="380" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="340" y="380" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="440" y="380" width="120" height="20" fill="rgb(255,255,255)" />
+            <rect x="0" y="400" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="80" y="400" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="120" y="400" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="180" y="400" width="140" height="20" fill="rgb(255,255,255)" />
+            <rect x="380" y="400" width="120" height="20" fill="rgb(255,255,255)" />
+            <rect x="520" y="400" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="160" y="420" width="20" height="100" fill="rgb(255,255,255)" />
+            <rect x="200" y="420" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="280" y="420" width="60" height="40" fill="rgb(255,255,255)" />
+            <rect x="380" y="420" width="20" height="40" fill="rgb(255,255,255)" />
+            <rect x="400" y="420" width="20" height="60" fill="rgb(255,255,255)" />
+            <rect x="480" y="420" width="20" height="60" fill="rgb(255,255,255)" />
+            <rect x="520" y="420" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="560" y="420" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="180" y="440" width="20" height="40" fill="rgb(255,255,255)" />
+            <rect x="240" y="440" width="20" height="40" fill="rgb(255,255,255)" />
+            <rect x="440" y="440" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="500" y="440" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="280" y="460" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="340" y="460" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="520" y="460" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="200" y="480" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="260" y="480" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="340" y="480" width="180" height="20" fill="rgb(255,255,255)" />
+            <rect x="540" y="480" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="220" y="500" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="320" y="500" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="360" y="500" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="460" y="500" width="20" height="40" fill="rgb(255,255,255)" />
+            <rect x="500" y="500" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="200" y="520" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="240" y="520" width="120" height="20" fill="rgb(255,255,255)" />
+            <rect x="420" y="520" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="500" y="520" width="80" height="20" fill="rgb(255,255,255)" />
+            <rect x="220" y="540" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="280" y="540" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="340" y="540" width="40" height="20" fill="rgb(255,255,255)" />
+            <rect x="440" y="540" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="500" y="540" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="540" y="540" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="160" y="560" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="220" y="560" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="260" y="560" width="60" height="20" fill="rgb(255,255,255)" />
+            <rect x="340" y="560" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="380" y="560" width="20" height="20" fill="rgb(255,255,255)" />
+            <rect x="420" y="560" width="100" height="20" fill="rgb(255,255,255)" />
+        </mask>
+    </defs>
+    <rect x="0" y="0" width="740" height="740" fill="url(#4e7d0575-4ac7-4b93-8a9d-fdfee4639e72)" mask="url(#4f7fce1b-397e-4e8c-8b7a-2b051c0fda4a)" />
+</svg>

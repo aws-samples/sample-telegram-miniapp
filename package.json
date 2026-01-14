@@ -1,0 +1,35 @@
+{
+	"name": "miniapp-sample",
+	"version": "0.0.1",
+	"license": "MIT-0",
+	"packageManager": "pnpm@10.27.0",
+	"engines": {
+		"node": ">=20.19.5",
+		"pnpm": ">=10.20.0"
+	},
+	"type": "module",
+	"bin": {
+		"miniapp-sample": "scaffold/bin.js"
+	},
+	"scripts": {
+		"up": "pnpm -r up --latest",
+		"build": "pnpm -r run build",
+		"deploy": "pnpm -r run deploy",
+		"licenses": "pnpm -r exec pnpx license-report --output=table",
+		"const": "pnpm --filter @core/constants run build",
+		"dev": "pnpm --filter @gui/react run dev --host",
+		"synth": "pnpm --filter @infra/cdk run synth",
+		"bootstrap": "pnpm --filter @infra/cdk exec cdk bootstrap -c skipGUI=true",
+		"setup": "pnpm --filter @infra/cdk run setup",
+		"report": "pnpm --silent --filter @infra/cdk run report",
+		"destroy-me": "pnpm --filter @infra/cdk exec cdk destroy --all -c skipGUI=true"
+	},
+	"dependencies": {
+		"@clack/prompts": "^0.11.0",
+		"cross-spawn": "^7.0.6",
+		"grammy": "^1.39.2",
+		"picocolors": "^1.1.1",
+		"pnpm": "^10.28.0",
+		"yaml": "^2.8.2"
+	}
+}
