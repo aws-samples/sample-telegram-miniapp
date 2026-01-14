@@ -11,7 +11,7 @@ The goal of this sample is to allow developers:
 - to speed up development with both vibe-coding and spec-based agentic AI development
 
 #### Code stack:
-- Languages: **TypeScript** and **JavaScript**
+- Languages: **TypeScript**
 - Frontend and backend: **React Router v7** [↗️](https://reactrouter.com/) in the Framework mode
 - Telegram Bot framework: **grammY** [↗️](https://grammy.dev/)
 - Telegram Mini Apps SDK: **@tma.js** [↗️](https://github.com/Telegram-Mini-Apps/tma.js#readme)
@@ -30,7 +30,7 @@ The goal of this sample is to allow developers:
 - [Register new Telegram Bot](#register-new-telegram-bot)
 - [Configure Telegram Mini App](#configure-telegram-mini-app)
 - [Scalability and Cost](#scalability-and-cost)
-- [Troubleshooting](#troubleshooting)    
+- [Troubleshooting](#troubleshooting)
 - [Supported environments](#supported-environments)
 - [Clean Up](#clean-up)
 - [License](#license)
@@ -41,21 +41,21 @@ The goal of this sample is to allow developers:
 
 # Quick Start
 
-1. Register a Telegram Bot using [@BotFather](https://t.me/BotFather) and obtain **Bot Token**.
+1. Register a Telegram Bot using [@BotFather](https://t.me/botfather) and obtain **Bot Token**.
 1. Make sure your laptop has [AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and [Git CLI](https://git-scm.com/install/) and [Node.js v22+](https://nodejs.org/en/download) installed
 1. Sign in to [AWS Management Console](https://aws.amazon.com/console/)
 1. Run deployment script on your laptop (MacOS, Linux, WSL)**\*** or in [AWS CloudShell](https://console.aws.amazon.com/cloudshell/home):
 
 ~~~bash
 # login to AWS on your laptop:
-#(please skip login if you use CloudShell)
+#(please skip 'aws login' if you use AWS CloudShell)
 aws login
 
 # check prerequisites and deploy Mini App in a guided mode:
-npx --yes git+https://github.com/aws-samples/sample-telegram-miniapp
+npx --yes git+https://github.com/aws-samples/sample-telegram-miniapp my-app
 ~~~
 
-**\*Note:** see [Supported environments](#scenario-2-first-time-deployment) for details on requirements to deployment environment
+**\*Note:** see [Supported environments](#supported-environments) for details on deployment environment prerequisites
 
 ---
 <br><br>
@@ -70,7 +70,7 @@ npx --yes git+https://github.com/aws-samples/sample-telegram-miniapp
 - LLM protection: **Amazon Bedrock Guardrails**
 - Cloud infrastructure management: **AWS CloudFormation**
 - Code repository: **AWS CodeCommit**
-- Code build automatisation: **AWS CodeBuild** + **Amazon EventBridge**
+- Code build automation: **AWS CodeBuild** + **Amazon EventBridge**
 - Logs ingestion and storage: **Amazon CloudWatch** + **Amazon S3**
 
 ![Architecture Overview](docs/architecture.png)
@@ -81,7 +81,11 @@ npx --yes git+https://github.com/aws-samples/sample-telegram-miniapp
 
 # Intended Use-Case
 
-This Mini App sample has absolutely no specific use-case implemented. Even though it might look like a complete and functional web application, it's just a sample that demonstrates a few useful concepts that help developers to get started with Mini App development quicker:
+This Mini App sample has absolutely no specific use-case in itself. It has no other purposes but learning by demonstrating integration details.
+
+It's up to you to develop your own Telegram Mini App application with your specific use-case, and we hope that this code sample would help you to get your hands on this topic easier and faster.
+
+Even though it might look like a complete and functional web application, it's just a sample that demonstrates a few useful concepts that help developers to get started with Mini App development quicker:
 
 - Serverless infrastructure for cost management
 - Serverless infrastructure for scalability
@@ -92,11 +96,9 @@ This Mini App sample has absolutely no specific use-case implemented. Even thoug
 1. QR code scanner
 1. Haptic feedback
 1. Shake detection
-1. Gyroscope orientation (alpha, beta, gamma)
-1. GPS location tracking
+1. Gyroscope orientation
+1. GPS location
 1. "Add to Home Screen" feature
-
-It's up to you to develop your own Telegram Mini App application with your specific use-case, and we hope that this code sample would help you to get your hands on this topic easier and faster.
 
 
 ---
@@ -106,13 +108,13 @@ It's up to you to develop your own Telegram Mini App application with your speci
 
 If you haven't done so already, please create your Telegram Bot that would be connected to your Telegram Mini App project later:
 
-1. Open Telegram [@BotFather](https://t.me/botfather) in your telegram client app
+1. Open Telegram [@BotFather](https://t.me/botfather) in your Telegram client app
 2. Send `/newbot` command and follow the prompts to create your bot
 3. Copy the **Bot Token** (a secret string of format: `123456789:ABCdefGHIjklMNOpqrsTUVwxyz`)
 
 For detailed instructions, see the [Telegram Bot FAQ](https://core.telegram.org/bots/faq).
 
-⚠️**IMPORTANT**: please do never hard-code or commit the **Bot Token** into your application code. The token has to be considered sensitive information. The Mini App sample deployment script will ask you for your Bot Token and store it in the application parameters in the cloud separately from your code so the token does not need to be committed to a code repository.
+⚠️**IMPORTANT**: please never hard-code or commit the **Bot Token** into your application code. The token has to be considered sensitive information. The Mini App sample deployment script will ask you for your Bot Token and store it in the application parameters in the cloud separately from your code so the token does not need to be committed to a code repository.
 
 
 ---
@@ -140,37 +142,29 @@ After successful deployment to AWS, the deployment script writes all the details
 
 This sample uses AWS Serverless infrastructure that is especially efficient when you just start your Mini App project or launching MVP and looking for:
 - pay-as-you-go model for infrastructure costs
-- ability to start as low as $0 per month should your application demonstrates small active user base
-- ability to scale quickly up to thousands active users per month or millions requests per day should your application demonstrates fast adoption
-- ability to migrate to container-based scale-out architectures should your workload grows beyond thousand active users per month.
+- ability to start as low as $0 per month should your application demonstrate small active user base
+- ability to scale quickly up to thousands active users per month or millions requests per day should your application demonstrate fast adoption
+- ability to migrate to container-based scale-out architectures should your workload grow beyond thousand active users per month.
 
 ### AWS Services
 
-| Service | Pricing Model | Pricing | Rough indicative estimate |
+Please consult official [AWS Pricing](https://aws.amazon.com/pricing/) and [AWS Pricing Calculator](https://calculator.aws/#/) pages for latest information and details.
+
+Here's a brief extraction on pricing for the main services used in this sample:
+
+| Service | Pricing Model | Source | Brief pricing model |
 |---------|---------------|---------|---------------------------|
-| **CloudFront** | Flat-Rate Plan | please see [official pricing](https://aws.amazon.com/pricing/) | $0.085 per GB (varies by region) |
-| **CloudFront** | Per GB transferred | please see [official pricing](https://aws.amazon.com/pricing/) | $0.085 per GB (varies by region) |
-| **Lambda@Edge** | Per request + duration | please see [official pricing](https://aws.amazon.com/pricing/) | ~$0.60 per million requests |
-| **DynamoDB** | On-demand per request | please see [official pricing](https://aws.amazon.com/pricing/) | $1.25 per million writes, $0.25 per million reads |
-| **S3** | Per GB stored + requests | please see [official pricing](https://aws.amazon.com/pricing/) | $0.023 per GB/month |
-| **WAF** (optional) | Per million requests | please see [official pricing](https://aws.amazon.com/pricing/) | $1.00 per million + $5/month base |
+| **CloudFront** (Mini App) | Flat-rate plans | [official pricing](https://aws.amazon.com/cloudfront/pricing/) | Free, Pro, Business, Premium |
+| **CloudFront** (Bot webhook) | Pay-as-you-go | [official pricing](https://aws.amazon.com/cloudfront/pricing/pay-as-you-go/) | $0.085 per GB  +  $0.01 per 10K HTTPS requests |
+| **Lambda Function** ARM, 256MB | Pay-as-you-go | [official pricing](https://aws.amazon.com/lambda/pricing) | ~$0.20 per million requests + $0.0000034 per second of actual execution time |
+| **Lambda@Edge** x86 | Pay-as-you-go | [official pricing](https://aws.amazon.com/lambda/pricing/#Lambda.40Edge_Pricing) | ~$0.60 per million requests + $0.00000625125 per second of actual execution time |
+| **DynamoDB** | On-Demand | [official pricing](https://aws.amazon.com/dynamodb/pricing/on-demand/) | $0.625 per million write request units, $0.125 per million read request units |
+| **S3** | Pay-as-you-go | [official pricing](https://aws.amazon.com/s3/pricing) | $0.023 per GB/month |
+| **WAF** | Flat-rate plans OR Pay-as-you-go | [official pricing](https://aws.amazon.com/waf/pricing) | $0.60 per million requests + $5/month base + $1/month per rule |
 
-### Cost Optimization
+#### Free Tier
 
-- **Set up billing alerts** in AWS Cost Explorer
-- **Use CloudFront Function** for _Bot Webhook_ protection instead of WAF by setting `bot.firewall: cff` in `app.yaml`. This disables some advanced features that WAF offers (like rate limiting), but still follows security recommendations from [Telegram Webhook guide](https://core.telegram.org/bots/webhooks): (1) it checks that request comes from Telegram known IP range, and (2) verifies *X-Telegram-Bot-Api-Secret-Token* header value. **Note:** this does NOT disable WAF in front of your Mini App web application (due to costs of particular that WAF WebACL are supposed to be covered by CloudFront's **Flat-Rate Plan**)
-
-### Free Tier
-
-Please check information on Free Tier at [official page](https://aws.amazon.com/free/).
-
-AWS Free Tier includes:
-- 1 million Lambda requests per month
-- 1 GB CloudFront data transfer per month
-- 25 GB DynamoDB storage
-- 5 GB S3 storage
-
-For detailed pricing, see the [AWS Pricing Calculator](https://calculator.aws/).
+Please check information on [AWS Free Tier](https://aws.amazon.com/free/) program.
 
 ---
 <br><br>
@@ -206,12 +200,12 @@ pnpm --filter "@gui/react" typecheck
 
 > ℹ️ Hint:<br> For the first time deployment you can just open [AWS CloudShell](https://console.aws.amazon.com/cloudshell/home) and run the **npx** command there. This environment has all the tools installed and doesn't require any additional time for preparation.
 
-#### Operatins Systems
-The following OS/environments should be suitable for both sample deployment:
+#### Operating Systems
+The following OS/environments should be suitable for sample deployment:
 
 - AWS CloudShell
 - MacOS 13.5+
-- Ubuntu 22.04+ 
+- Ubuntu 22.04+
 - Linux [supported by Node.js](https://github.com/nodejs/node/blob/main/BUILDING.md) v22+
 - WSL 2 on Windows 10+
 - Windows 10/11
