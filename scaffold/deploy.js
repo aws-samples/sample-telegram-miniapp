@@ -152,41 +152,31 @@ export async function runDeployment(options = {}) {
 
 	if (ok) {
 
-		p.log.success(`You may find some handy notes on your deployed infrastructure in this report:`)
-		p.log.message(pc.cyan(report))
+		if (report) {
+
+			p.log.success(pc.bgCyanBright(pc.bold(' Deployment Report ')))
+			p.log.message(`You may find some handy notes on your deployed infrastructure in this report:\n${pc.cyan(report)}`)
+		}
 
 		if ($.report) {
 
-			p.note([
+			p.log.info(pc.bgCyanBright(pc.bold(' Quick Reference ')))
+			p.log.message(pc.bold('Useful Commands:'))
+			p.log.message(pc.dim(`'# Clone your repository'\n${pc.cyan(`git clone ${$.report.git.http}`)}`))
+			p.log.message(pc.dim(`'# Tail application logs'\n${pc.cyan(`aws logs tail ${$.report.logs.app.split('/').at(-1)} --follow --region ${$.report.regions.main}${profile && profile !== 'default' ? ` --profile ${profile}` : ''}`)}`))
+			p.log.message(pc.dim(`'# Tail code build logs'\n${pc.cyan(`aws logs tail ${$.report.logs.build.split('/').at(-1)} --follow --region ${$.report.regions.main}${profile && profile !== 'default' ? ` --profile ${profile}` : ''}`)}`))	
+		}
 
-				pc.bold('Useful Commands:'),
-				'',
-				pc.dim('# Clone your repository'),
-				pc.cyan(`git clone ${$.report.git.http}`),
-				'',
-				pc.dim('# Tail application logs'),
-				pc.cyan(`aws logs tail ${$.report.logs.app} --follow --region ${$.report.regions.main}`),
-				'',
-				pc.dim('# Tail code build logs'),
-				pc.cyan(`aws logs tail ${$.report.logs.build} --follow --region ${$.report.regions.main}`),
-				'',
-				pc.bold('Your Bot:'),
-				pc.cyan(`https://t.me/${$.bot?.info?.username}`),
-				pc.dim('The bot webhook was already set, so you can use it now'),
+		if ($.bot?.info?.username) {
 
-			].join('\n'), pc.bgCyanBright(pc.bold(' Quick Reference ')))
+			p.log.message(pc.dim(`'Your Bot:\n${pc.cyan(`https://t.me/${$.bot.info.username}`)}\nThe bot webhook was already set, so you can use it now`))
 		}
 
 		if ($.report.miniapp) {
 
-			p.note([
-
-				pc.bold('Your Miniapp URL:'),
-				pc.cyan($.report.miniapp),
-				'',
-				pc.dim(`Open Telegram's @BotFather to configure your Mini Apps using this URL`),
-
-			].join('\n'), pc.bgGreen(pc.bold(' Telegram Mini App URL ')))
+			p.log.success(pc.bgGreen(pc.bold("  Your Mini App's URL:  ")))
+			p.log.message(`🚀 ${pc.greenBright(pc.bold($.report.miniapp))}`)
+			p.log.message(pc.dim(`Open Telegram's @BotFather to configure your Mini App using the URL ↑ above:\n${pc.cyan('https://t.me/botfather')}`))
 		}
 	}
 
