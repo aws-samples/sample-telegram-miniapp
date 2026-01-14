@@ -159,7 +159,7 @@ export function webhookCFFCode(token: string = '') {
         return `{ nw: ${network.toFixed()}, mask: ${mask.toFixed()} }`
     }).join(', ')    
 
-    return `const { createHash } = require('crypto');
+    return `const crypto = require('crypto');
 
 function handler(event) {
 
@@ -204,7 +204,7 @@ function isIPInRanges(ip, ranges) {
 
 function sha256(data) {
 
-    return createHash('sha256').update(data||'').digest('hex')
+    return crypto.createHash('sha256').update(data||'').digest('hex')
 }`
 }
 
