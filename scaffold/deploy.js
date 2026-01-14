@@ -26,7 +26,7 @@ export async function runDeployment(options = {}) {
 	const report = safePath(target, 'REPORT.md')
     const branch = await gitDefaultBranchName('main')
 	const vscode = await detectVSCode()
-	const $ = { }
+	const $ = {}
 
 	const steps = [
 		{
@@ -154,6 +154,40 @@ export async function runDeployment(options = {}) {
 
 		p.log.success(`You may find some handy notes on your deployed infrastructure in this report:`)
 		p.log.message(pc.cyan(report))
+
+		if ($.report) {
+
+			p.note([
+
+				pc.bold('Useful Commands:'),
+				'',
+				pc.dim('# Clone your repository'),
+				pc.cyan(`git clone ${$.report.git.http}`),
+				'',
+				pc.dim('# Tail application logs'),
+				pc.cyan(`aws logs tail ${$.report.logs.app} --follow --region ${$.report.regions.main}`),
+				'',
+				pc.dim('# Tail code build logs'),
+				pc.cyan(`aws logs tail ${$.report.logs.build} --follow --region ${$.report.regions.main}`),
+				'',
+				pc.bold('Your Bot:'),
+				pc.cyan(`https://t.me/${$.bot?.info?.username}`),
+				pc.dim('The bot webhook was already set, so you can use it now'),
+
+			].join('\n'), pc.bgCyanBright(pc.bold(' Quick Reference ')))
+		}
+
+		if ($.report.miniapp) {
+
+			p.note([
+
+				pc.bold('Your Miniapp URL:'),
+				pc.cyan($.report.miniapp),
+				'',
+				pc.dim(`Open Telegram's @BotFather to configure your Mini Apps using this URL`),
+
+			].join('\n'), pc.bgGreen(pc.bold(' Telegram Mini App URL ')))
+		}
 	}
 
 	p.outro(ok
