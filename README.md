@@ -43,7 +43,7 @@ The goal of this sample is to allow developers:
 
 1. Register a Telegram Bot using [@BotFather](https://t.me/botfather) and obtain **Bot Token**.
 1. Make sure your laptop has [AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and [Git CLI](https://git-scm.com/install/) and [Node.js v22+](https://nodejs.org/en/download) installed
-1. Sign in to [AWS Management Console](https://aws.amazon.com/console/)
+1. Sign in to [AWS Management Console](https://console.aws.amazon.com/)
 1. Run deployment script on your laptop (MacOS, Linux, WSL)**\*** or in [AWS CloudShell](https://console.aws.amazon.com/cloudshell/home):
 
 ~~~bash
