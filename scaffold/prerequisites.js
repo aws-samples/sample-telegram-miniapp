@@ -207,7 +207,7 @@ async function verifyAccountAccess() {
                         { user: user.json.Arn?.split('/').at(-1) || user.json.UserId || '' },
                         account?.ok && account.json && typeof account.json === 'object'
                             ? account.json
-                            : { AccountID: user.json.Account||'', AccountName: '' },
+                            : { AccountId: user.json.Account||'', AccountName: '' },
                         user.json
                     )
                 }
