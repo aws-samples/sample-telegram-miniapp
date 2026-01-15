@@ -52,7 +52,7 @@ async function main() {
 
 	printSummary([
 		{ title: "App Name"			, value: pc.bold(pc.greenBright(appName	))},
-		{ title: "Account"			, value: pc.bold(pc.greenBright(`${accountId} (${accountName})`))},
+		{ title: "Account"			, value: pc.bold(pc.greenBright(`${accountId}${ accountName ? ` (${accountName})` : '' }`))},
 		{ title: "Region"			, value: pc.bold(pc.greenBright(region	))},
 		{ title: "Profile"			, value: pc.bold(pc.greenBright(profile	))},
 		{ title: "User"				, value: pc.bold(pc.greenBright(user	))},
@@ -66,7 +66,7 @@ async function main() {
 
 	const shouldProceed = await p.confirm({
 
-		message		: `${pc.bold(pc.red(`Proceed with deployment to account ${accountId}`))} ${pc.dim(`(${accountName})`)} ${pc.bold(pc.red('?'))}`,
+		message		: `${pc.bold(pc.red(`Proceed with deployment to account ${accountId}`))}${accountName ? pc.dim(` (${accountName})`) : ''}${pc.bold(pc.red('?'))}`,
 		initialValue: false,
 	})
 
