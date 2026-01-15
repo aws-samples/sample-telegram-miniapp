@@ -24,3 +24,7 @@ Thumbs.db
 
 # Git
 !.gitignore
+
+# AI code assistants
+!.kiro
+!.claude
