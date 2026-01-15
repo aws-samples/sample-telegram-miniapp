@@ -95,7 +95,7 @@ export class Backend extends Construct {
 
         this.#bucket = new s3.Bucket(this, 'StaticContent', {
 
-            bucketName          :`${props.prefix}-web-static-content`,
+          //bucketName          :`${props.prefix}-web-static-content`,
             autoDeleteObjects   : true,
             enforceSSL          : true,
             removalPolicy       : cdk.RemovalPolicy.DESTROY,
