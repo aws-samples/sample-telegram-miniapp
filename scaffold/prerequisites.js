@@ -171,7 +171,7 @@ async function verifyFreeSpace() {
 
 async function verifyAccountAccess() {
 
-    const listResult = await exec(['aws', 'configure', 'list-profiles', '--output', 'json'], { json: false })
+    const listResult = await exec(['aws', 'configure', 'list-profiles', '--output', 'text'], { json: false })
 
     if (listResult.ok) {
 
@@ -201,16 +201,15 @@ async function verifyAccountAccess() {
                         { json: true, timeout: 10000 }
                     )
 
-                    if (account && account.ok && account.json && typeof account.json === 'object') {
+                    return Object.assign(
 
-                        return Object.assign(
-
-                            { ok: true,  profile },
-                            { user: user.json.Arn?.split('/').at(-1) || user.json.UserId || '' },
-                            user.json,
-                            account.json
-                         )
-                    }
+                        { ok: true,  profile },
+                        { user: user.json.Arn?.split('/').at(-1) || user.json.UserId || '' },
+                        account?.ok && account.json && typeof account.json === 'object'
+                            ? account.json
+                            : { AccountID: user.json.Account||'', AccountName: '' },
+                        user.json
+                    )
                 }
 
                 return Object.assign(user||{}, { ok: false, profile, user: '' })
