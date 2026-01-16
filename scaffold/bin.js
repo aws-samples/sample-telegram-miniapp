@@ -111,7 +111,7 @@ async function ask_for_basic_settings(env, onCancel) {
 			appName: () =>
 				p.text({
 					message		: pc.bold('What is the name of your application?'),
-					placeholder	: env.target && basename(env.target) || 'MiniApp',
+					placeholder	: env.target && basename(env.target) || 'miniapp',
 					validate	: validateAppName,
 				}),
 
