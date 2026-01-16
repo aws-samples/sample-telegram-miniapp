@@ -121,6 +121,11 @@ export function validateAppName(value) {
 		return 'App name must start with a letter and contain only letters, numbers, hyphens, and underscores';
 	}
 
+	if (value.length > 32) {
+
+		return 'App name length should not exceed 32 characters. Please make it shorter'
+	}
+
 	return undefined;
 }
 

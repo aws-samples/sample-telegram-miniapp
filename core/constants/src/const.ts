@@ -8,7 +8,7 @@ import      root_config             from "../metadata/app.config.json"  with { t
 
 const user      = root_config as unknown as UserInputs & Metadata
 const root      = user.root
-const prefix    = user.app.name.toLowerCase().replaceAll(/[^a-z0-9]/ig,'')
+const prefix    = user.app.name.toLowerCase().replaceAll(/[^a-z0-9]/ig,'').slice(0, 32)
 const basepath  ='/app'
 const region    = cleanRegionString(user.aws.region) || cleanRegionString(process.env["AWS_REGION"]) || undefined
 const region_ai = cleanRegionString(user.bedrock.region) || region || cleanRegionString('us-east-1')!
