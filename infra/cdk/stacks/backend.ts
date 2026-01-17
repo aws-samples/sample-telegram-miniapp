@@ -12,7 +12,7 @@ import { Stack                  } from "aws-cdk-lib"
 import { NagSuppressions        } from "cdk-nag"
 import { Construct              } from "constructs"
 import { existsSync             } from "node:fs"
-
+import { tryUniqueId            } from "./uniqueid"
 
 
 
@@ -95,7 +95,7 @@ export class Backend extends Construct {
 
         this.#bucket = new s3.Bucket(this, 'StaticContent', {
 
-          //bucketName          :`${props.prefix}-web-static-content`,
+            bucketName          : tryUniqueId(this, `${props.prefix}-web-static-content`),
             autoDeleteObjects   : true,
             enforceSSL          : true,
             removalPolicy       : cdk.RemovalPolicy.DESTROY,

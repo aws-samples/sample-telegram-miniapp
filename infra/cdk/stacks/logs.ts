@@ -1,5 +1,6 @@
 import { Construct        } from "constructs"
 import { NagSuppressions  } from "cdk-nag"
+import { tryUniqueId      } from "./uniqueid"
 import   * as cdk           from "aws-cdk-lib"
 import   * as iam           from "aws-cdk-lib/aws-iam"
 import   * as logs          from "aws-cdk-lib/aws-logs"
@@ -91,7 +92,7 @@ export class Logs extends Construct {
 
         this.#s3 = new s3.Bucket(this, "S3", {
 
-          //bucketName          :`${props.prefix}-logs`,
+            bucketName          : tryUniqueId(this, `${props.prefix}-logs`),
             objectOwnership     : s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
             blockPublicAccess   : s3.BlockPublicAccess.BLOCK_ALL,
             encryption          : s3.BucketEncryption.S3_MANAGED,
