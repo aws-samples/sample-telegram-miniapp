@@ -12,7 +12,7 @@ const app = new App();
 
 Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
 
-new AppStack(app, $.naming.app, {
+new AppStack(app, $.naming.prefix, {
 
     env: {
 
