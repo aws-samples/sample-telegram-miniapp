@@ -26,5 +26,5 @@ Thumbs.db
 !.gitignore
 
 # AI code assistants
-!.kiro
-!.claude
+#!.kiro
+#!.claude
