@@ -185,7 +185,7 @@ export class AppStack extends cdk.Stack {
             },
 
             deployment          : {
-                name            : $.naming.app,
+                name            : $.naming.prefix,
                 git             : theDev.gitInfo,
                 logs            : theLogs.url,
                 miniapp         : theCDN.url,
