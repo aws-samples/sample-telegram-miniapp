@@ -226,8 +226,8 @@ export class AppStack extends cdk.Stack {
                 bedrock         : {
                     region      : $.aws.bedrock.region,
                     model       : $.aws.bedrock.model,
-                    maxTokens   : $.aws.bedrock.maxTokens,
-                    topP        : $.aws.bedrock.topP,
+                    maxTokens   : $.aws.bedrock.max_tokens,
+                    topP        : $.aws.bedrock.top_p,
                     guardrail   : {
                         id      : theGuardrail.attrGuardrailId,
                         version : theGuardrail.attrVersion
