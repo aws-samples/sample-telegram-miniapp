@@ -161,7 +161,14 @@ export class DevTools extends Construct {
             }
         })
 
-        this.#buildTrigger.addTarget(new targets.CodeBuildProject(this.#buildProject))
+        this.#buildTrigger.addTarget(new targets.CodeBuildProject(this.#buildProject, {
+
+            eventRole: new iam.Role(this, 'TriggerRole', {
+
+                roleName    :`${props.prefix}-codebuild-trigger-role`,
+                assumedBy   : new iam.ServicePrincipal('events.amazonaws.com')
+            })
+        }))
 
     // ╭───────────────────────────────────────────────────────────────────────────────────────╮
     // │                                                                                       │

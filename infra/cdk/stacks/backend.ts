@@ -129,6 +129,7 @@ export class Backend extends Construct {
             loggingFormat       : lambda.LoggingFormat.JSON,
             role                : new iam.Role(this, 'Role', {
 
+                roleName        :`${props.prefix}-backend-role`,
                 assumedBy       : new iam.ServicePrincipal('lambda.amazonaws.com', {
 
                     region      : Stack.of(this).region,
