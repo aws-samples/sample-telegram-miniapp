@@ -35,6 +35,11 @@ export interface GlobalConstants {
                 arm64   : (region: string) => string
             }
         }
+
+        s3: {
+
+            max_bucket_name_length: number
+        }
     }
 
     naming: {

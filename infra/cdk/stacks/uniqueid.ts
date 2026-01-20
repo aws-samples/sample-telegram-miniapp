@@ -1,12 +1,13 @@
 import type {IConstruct } from "constructs"
 import { Stack, Token   } from "aws-cdk-lib"
 import { sha256         } from "@core/tools-server"
+import   $                from "@core/constants"
 
 
 
 
 
-const S3_NAME_MAX_LEN = 63
+const DEFAULT_MAX = $.aws.s3.max_bucket_name_length
 
 interface TryUniqueIdProps {
 
@@ -27,7 +28,7 @@ export function tryUniqueId(node: IConstruct, opt: string | TryUniqueIdProps ): 
 
     const prefix    = (typeof opt === 'object' ? (opt?.prefix||'') : typeof opt === 'string' ? opt : '') || ''
     const separator = (typeof opt === 'object' ? (opt?.separator||'') : '-')
-    const maxlen    =  typeof opt === 'object' ? (opt?.maxlen||S3_NAME_MAX_LEN) : S3_NAME_MAX_LEN
+    const maxlen    =  typeof opt === 'object' ? (opt?.maxlen||DEFAULT_MAX) : DEFAULT_MAX
     const id        = `${prefix}${separator}${sha256(`${account}:${region}`)}`
     return maxlen > 0 ? id.slice(0, maxlen) : id
 }

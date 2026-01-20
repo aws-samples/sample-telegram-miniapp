@@ -39,6 +39,11 @@ export default {
         account : cleanAccountString(user.aws.account) || cleanAccountString(process.env["AWS_ACCOUNT"]) || undefined,
         region  : region,
 
+        s3: {
+
+            max_bucket_name_length: 63
+        },
+
         lambda: {
 
             // https://github.com/awslabs/aws-lambda-web-adapter            
