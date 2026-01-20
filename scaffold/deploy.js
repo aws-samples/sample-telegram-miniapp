@@ -35,8 +35,14 @@ export async function runDeployment(options = {}) {
 			critical	: true
 		},
 		{
+			name		:`Check workshop prefix`,
+			command		: async () => getWorkshopPrefix(options.region, profile),
+			context		: workshop => Object.assign($, workshop),
+			critical	: false
+		},
+		{
 			name		:`Save user answers to app.yaml`,
-			command		: ({ logFile }) => updateAppYaml(target, { ...options, branch }, logFile).then(r => ({ ok: r || false }), error => ({ ok: false, error })),
+			command		: ({ logFile }) => updateAppYaml(target, { ...options, branch, ...$ }, logFile).then(r => ({ ok: r || false }), error => ({ ok: false, error })),
 			critical	: true
 		},
 		{
@@ -412,6 +418,29 @@ async function detectVSCode() {
 
 	const { ok } = await exec(['code', '--version'])
 	return ok
+}
+
+
+
+
+
+async function getWorkshopPrefix(region, profile) {
+
+	const cmd = [
+		'aws', 'ssm', 'get-parameter',
+		'--name', '/workshop/prefix',
+		'--region', region
+	]
+
+	if (profile && profile !== 'default') {
+		cmd.push('--profile', safeProfile(profile))
+	}
+
+	const { ok, json } = await exec(cmd)
+
+	return ok && json?.Parameter?.Value
+		? { ok: true, json: { workshop: json.Parameter.Value } }
+		: { ok: true, json: { workshop: undefined } }
 }
 
 

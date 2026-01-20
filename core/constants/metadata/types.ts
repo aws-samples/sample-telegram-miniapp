@@ -6,6 +6,7 @@ export interface UserInputs {
 
         name        : string
         frontend    :`${string}/${string}`
+        workshop   ?: string
     }
 
     aws: {

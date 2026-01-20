@@ -14,7 +14,7 @@ import YAML from 'yaml'
  */
 export async function updateAppYaml(root, config, logFile) {
 
-	const { 
+	const {
 		aws			= '',
 		git			= '',
 		pnpm		= '',
@@ -27,6 +27,7 @@ export async function updateAppYaml(root, config, logFile) {
 		profile		= '',
 		accountId	= '',
 		accountName	= '',
+		workshop	= '',
 	} = config
 
 	const appYamlPath = path.join(root, 'app.yaml');
@@ -39,6 +40,7 @@ export async function updateAppYaml(root, config, logFile) {
 		['aws.region'	, region	],
 		['aws.account'	, accountId	],
 		['bedrock.model', llm		],
+		...(workshop && typeof workshop === 'string' ? [['app.workshop', workshop]] : []),
 
 	].forEach(
 
@@ -46,7 +48,7 @@ export async function updateAppYaml(root, config, logFile) {
 
 			const sections	= t.split('.').slice(0, -1)
 			const key		= t.split('.').at(-1)
-			const node		= sections.reduce((node, i) => node.get(i) || node.set(i, new YAML.YAMLMap()).get(i), doc)			
+			const node		= sections.reduce((node, i) => node.get(i) || node.set(i, new YAML.YAMLMap()).get(i), doc)
 
 			node.set(key, value)
 		}
@@ -70,6 +72,7 @@ export async function updateAppYaml(root, config, logFile) {
 				`profile		: "${profile}"`,
 				`accountId	: "${accountId}"`,
 				`accountName	: "${accountName}"`,
+				`workshop	: "${workshop}"`,
 			 ].join('\n'),
 			{ flag: 'a', encoding: 'utf-8' }
 		)
