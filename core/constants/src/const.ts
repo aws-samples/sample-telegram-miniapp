@@ -61,10 +61,13 @@ export default {
             //   not inforced by Bedrock itself,
             //   but is used for user input validation
             max_image_size  : 5*1024*1024,
+
             // - maxTokens: maximum number of tokens to generate
+            // - How tokens are counted in Amazon Bedrock:
+            // - https://docs.aws.amazon.com/bedrock/latest/userguide/quotas-token-burndown.html
             max_tokens      : 1024,
             // - temperature: randomness (max: 1.0, default: 0.7)
-            //   OR
+            //   -- OR --
             // - topP: diversity of word choice (max: 1.0, default: 0.9)
             // Note: Use either temperature OR topP, but not both
             top_p           : 0.9,
