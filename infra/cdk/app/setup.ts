@@ -1,9 +1,10 @@
 import type { WebhookParam  } from "@core/vault"
 import { parseArgs          } from "node:util"
-import { Bot                } from "grammy"
+import { Api                } from "grammy"
 import { supportedUpdates   } from "@tg/bot"
 import { updateFirewallToken} from "../stacks/webhook"
 import { useWebhookToken,
+         getDeploymentInfo,
          getBot, setBot     } from "@core/vault"
 import { calcTokenHash      } from "@core/session-server"
 
@@ -41,7 +42,7 @@ import { calcTokenHash      } from "@core/session-server"
 interface Context {
 
     args    : { token?: string; webhook?: string; secret?: string }
-    bot     : Bot
+    bot     : Api
     webhook : WebhookParam
     token   : string
 }
@@ -71,9 +72,12 @@ async function setupParams() {
         {
             name:'Set Telegram Bot Webhook',
             job: setupWebhook
+        },
+        {
+            name:'Set Telegram Bot default Menu Button',
+            job: setupMenuButton
         }
     ] as const
-
 
     const ok = await steps.reduce(
 
@@ -105,18 +109,19 @@ async function initBot(ctx: Partial<Context>): Promise<Partial<Context>> {
         throw new Error('Bot Token is not found. Please provide it manually by calling pnpm run setup --token <BOT_TOKEN>')
     }
 
-    const bot = new Bot(token)
-    await bot.init()
+    const api = new Api(token)
+    const info = await api.getMe()
+
     await setBot({
 
         token       : token,
         tokenHash   : calcTokenHash(token),
-        info        : bot.botInfo,
+        info        : info,
     })
 
-    console.log(`✅ Bot: @${bot.botInfo.username}`)
+    console.log(`✅ Bot: @${info.username}`)
 
-    return { bot }
+    return { bot: api }
 }
 
 
@@ -163,7 +168,7 @@ async function setupWebhook(ctx: Partial<Context>): Promise<Partial<Context>> {
 
     if (ctx.webhook && ctx.bot && ctx.token) {
 
-        const response = await ctx.bot!.api.setWebhook(
+        const response = await ctx.bot!.setWebhook(
 
             ctx.webhook.url,
             {
@@ -175,6 +180,38 @@ async function setupWebhook(ctx: Partial<Context>): Promise<Partial<Context>> {
         if (!response) {
 
             throw new Error(`Failure to set Telegram Bot Webhook: response="${response}"`)
+        }
+    }
+
+    return {}
+}
+
+
+
+
+
+async function setupMenuButton(ctx: Partial<Context>): Promise<Partial<Context>> {
+
+    const info = await getDeploymentInfo()
+
+    if (ctx.bot && ctx.token && info.miniapp) {
+
+        const response = await ctx.bot!.setChatMenuButton({
+
+            menu_button: {
+
+                type    : 'web_app',
+                text    : 'Open App',
+                web_app : {
+
+                    url : info.miniapp
+                }
+            }
+        })
+
+        if (!response) {
+
+            throw new Error(`Failure to set Bot Menu Button: response="${response}"`)
         }
     }
 
