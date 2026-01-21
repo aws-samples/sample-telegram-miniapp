@@ -200,8 +200,8 @@ async function setupMenuButton(ctx: Partial<Context>): Promise<Partial<Context>>
 
             menu_button: {
 
-                type    : 'web_app',
-                text    : 'Open App',
+                type    :'web_app',
+                text    : await getMenuName(ctx),
                 web_app : {
 
                     url : info.miniapp
@@ -216,6 +216,30 @@ async function setupMenuButton(ctx: Partial<Context>): Promise<Partial<Context>>
     }
 
     return {}
+}
+
+
+
+
+
+async function getMenuName(ctx: Partial<Context>): Promise<string> {
+
+    try {
+
+        if (ctx.bot && ctx.token) {
+
+            const menu = await ctx.bot!.getChatMenuButton()
+
+            if (menu && menu.type === 'web_app' && menu.text) {
+
+                return menu.text
+            }
+        }
+    }
+
+    catch { }
+
+    return "Open App"
 }
 
 
