@@ -85,11 +85,6 @@ async function main() {
 
 
 
-/**
- * @param {Array<{ title: string, value: string }>} summary
- * @param {string} title
- * @returns {void}
- */
 function printSummary(summary, title = "Configuration summary:") {
 
 	const pad = Math.max(...summary.map(i => i.title.length)) + 1
@@ -103,7 +98,7 @@ function printSummary(summary, title = "Configuration summary:") {
 
 async function ask_for_basic_settings(env, onCancel) {
 
-	const profilesMap = (env.profiles||[]).reduce((acc, i) => Object.assign(acc, { [i.profile||'']: i } ), {})
+	const profilesMap = (env.profiles||[]).reduce((acc, i) => Object.assign(acc, { [i.profile]: i }), {})
 	const profileKeys = Object.keys(profilesMap)
 
     const { appName, profileID, botToken } = await p.group(
@@ -122,7 +117,7 @@ async function ask_for_basic_settings(env, onCancel) {
 					return p.select({
 
 						message		: pc.bold('Which AWS Profile would you like to use?'),
-						options		: env.profiles.map(i => ({ value: i.profile, label: `${i.profile} (${i.Account}) - ${i.user}` })),
+						options		: env.profiles.map(i => ({ value: i.profile, label: i.profile ? `${i.profile} (${i.Account}) - ${i.user}` : `account ${i.Account}, user "${i.user}"` })),
 						initialValue: env.profiles.at(0).profile,
 					})
 				}

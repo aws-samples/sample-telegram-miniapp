@@ -171,23 +171,19 @@ async function verifyFreeSpace() {
 
 async function verifyAccountAccess() {
 
-    const listResult = await exec(['aws', 'configure', 'list-profiles', '--output', 'text'], { json: false })
+    const result = await exec(['aws', 'configure', 'list-profiles', '--output', 'text'], { json: false })
 
-    if (listResult.ok) {
+    if (result.ok) {
 
-        const result = listResult.stdout
+        const profileSet = new Set(['', ...result
+            .stdout
             .split('\n')
             .map(i => safeProfile(i))
-            .filter(Boolean)
-
-        if (result.length < 1) {
-
-            result.push('')
-        }
+            .filter(Boolean)])
 
         const profiles = await Promise.all(
 
-            result.map(async profile => {
+            [...profileSet].map(async profile => {
 
                 const user = await exec(
                     ['aws', 'sts', 'get-caller-identity', '--output', 'json', ...(profile ? ['--profile', profile] : []) ],
@@ -223,7 +219,7 @@ async function verifyAccountAccess() {
         }
     }
 
-    return listResult
+    return result
 }
 
 
