@@ -24,6 +24,11 @@
 		"report": "pnpm --silent --filter @infra/cdk run report",
 		"destroy-me": "pnpm --filter @infra/cdk exec cdk destroy --all -c skipGUI=true"
 	},
+	"pnpm": {
+		"overrides": {
+			"lodash": ">=4.17.23"
+		}
+	},
 	"dependencies": {
 		"@clack/prompts": "^0.11.0",
 		"cross-spawn": "^7.0.6",
