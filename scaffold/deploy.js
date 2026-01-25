@@ -93,6 +93,11 @@ export async function runDeployment(options = {}) {
 			name		:`VS Code: configure markdown preview`,
 			command		: vscode ? () => setupVSCodeSettings(target) : false,
 			critical	: false
+		},
+		{
+			name		:`Quick Healthcheck`,
+		get command()	{ return $.report.miniapp ? () => runHealthcheckEndpoint($.report.miniapp) : false },
+			critical	: true
 		}
 	]
 
@@ -108,7 +113,7 @@ export async function runDeployment(options = {}) {
 			const logFile = get_log_file(target, i.name, n)
 			const s  = i.spinner !== false ? p.spinner() : undefined
 
-			s && s.start(`${pc.dim(`${n+1} of ${steps.length}`.padStart(padIndex))}: ${i.name}`)			
+			s && s.start(`${pc.dim(`${n+1} of ${steps.length}`.padStart(padIndex))}: ${i.name}`)
 
 			if (!i.command) {
 
@@ -166,7 +171,7 @@ export async function runDeployment(options = {}) {
 			p.log.message('Useful Commands:')
 			p.log.message(pc.dim(`# Clone your repository\n${pc.cyan(`git clone ${$.report.git.http}`)}`))
 			p.log.message(pc.dim(`# Tail application logs\n${pc.cyan(`aws logs tail ${$.report.logs.app.split('/').at(-1)} --follow --region ${$.report.regions.main}${profile && profile !== 'default' ? ` --profile ${profile}` : ''}`)}`))
-			p.log.message(pc.dim(`# Tail code build logs\n${pc.cyan(`aws logs tail ${$.report.logs.build.split('/').at(-1)} --follow --region ${$.report.regions.main}${profile && profile !== 'default' ? ` --profile ${profile}` : ''}`)}`))	
+			p.log.message(pc.dim(`# Tail code build logs\n${pc.cyan(`aws logs tail ${$.report.logs.build.split('/').at(-1)} --follow --region ${$.report.regions.main}${profile && profile !== 'default' ? ` --profile ${profile}` : ''}`)}`))
 		}
 
 		if ($.bot?.info?.username) {
@@ -421,16 +426,6 @@ function get_log_file(path, text='any', n=0) {
 
 
 
-async function detectVSCode() {
-
-	const { ok } = await exec(['code', '--version'])
-	return ok
-}
-
-
-
-
-
 async function writeCdkContext(target, context) {
 
 	try {
@@ -506,4 +501,29 @@ export async function setupVSCodeSettings(target) {
 
 		return { ok: false, error }
 	}
+}
+
+
+
+
+
+async function detectVSCode() {
+
+	const { ok } = await exec(['code', '--version'])
+	return ok
+}
+
+
+
+
+
+export async function runHealthcheckEndpoint(miniapp) {
+
+	const resp = await fetch(`${miniapp}/ok`)
+
+	return {
+
+		ok		: resp.ok,
+		stdout	: await resp.text()
+	}	
 }
