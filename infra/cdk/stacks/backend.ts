@@ -17,6 +17,7 @@ import { tryUniqueId            } from "./uniqueid"
 
 
 
+
 export interface BackendStackProps {
 
     package             : string
@@ -84,6 +85,7 @@ export class Backend extends Construct {
         const guiServer  = path.join(guiBuild, "server")
         const guiStatic  = path.join(guiBuild, "static")
         const skipGUI    = this.node.tryGetContext('skipGUI') === 'true'
+        const isWorkshop = this.node.tryGetContext('workshop')
 
         if (!skipGUI) {
 
@@ -180,7 +182,7 @@ export class Backend extends Construct {
 
         this.#url = this.#lambda.addFunctionUrl({
 
-            authType    : lambda.FunctionUrlAuthType.AWS_IAM,
+            authType    : isWorkshop ? lambda.FunctionUrlAuthType.NONE : lambda.FunctionUrlAuthType.AWS_IAM,
             invokeMode  : lambda.InvokeMode.BUFFERED
         })
 

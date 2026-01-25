@@ -22,23 +22,17 @@ import        pc	  	  	  from 'picocolors'
 
 export async function runDeployment(options = {}) {
 
-	const { botToken, source, target, profile, user } = options
+	const { botToken, source, target, profile, user, workshop } = options
 	const report = safePath(target, 'REPORT.md')
     const branch = await gitDefaultBranchName('main')
 	const vscode = await detectVSCode()
-	const $ = {}
+	const $ = { workshop }
 
 	const steps = [
 		{
 			name		:`Prepare project structure`,
-			command		: () => copyProject(source, target),
+			command		: () => copyProject(source, target, workshop),
 			critical	: true
-		},
-		{
-			name		:`Check workshop prefix`,
-			command		: async () => getWorkshopPrefix(options.region, profile),
-			context		: workshop => Object.assign($, workshop),
-			critical	: false
 		},
 		{
 			name		:`Save user answers to app.yaml`,
@@ -202,7 +196,7 @@ export async function runDeployment(options = {}) {
 
 
 
-async function copyProject(source, target) {
+async function copyProject(source, target, workshop) {
 
 	if (await isExist(target)) {
 
@@ -240,24 +234,37 @@ async function copyProject(source, target) {
 			"Thumbs.db",
 		])
 
-		await mkdir(safePath(target, '.logs'), { recursive: true })
+		await mkdir(safePath(target, '.logs'), {
 
-		return cp(source, target, {
+			recursive: true
+		})
+
+		await cp(source, target, {
 
 			dereference	: true,
 			recursive	: true,
 			force		: true,
 			filter		: src => !exclude.has(basename(src))
 		})
-		.then(() => rename(
+
+		await rename(
+
 			safePath(target, 'docs', 'gitignore.template'),
-			safePath(target, '.gitignore'))
+			safePath(target, '.gitignore')
 		)
-		.then(
-			() 		=> ({ ok: true }),
-			(error)	=> ({ ok: false, error })
-		)
+
+		if (workshop) {
+
+			return writeCdkContext(target, {
+
+				workshop		: Boolean(workshop),
+				workshopPrefix	: workshop
+			})
+		}
+
+		return { ok: true }
 	}
+
 	catch (error) {
 
 		return { ok: false, error }
@@ -424,23 +431,44 @@ async function detectVSCode() {
 
 
 
-async function getWorkshopPrefix(region, profile) {
+async function writeCdkContext(target, context) {
 
-	const cmd = [
-		'aws', 'ssm', 'get-parameter',
-		'--name', '/workshop/prefix',
-		'--region', region
-	]
+	try {
 
-	if (profile && profile !== 'default') {
-		cmd.push('--profile', safeProfile(profile))
+		const { ok, json } = await exec(
+			['pnpm', 'list', '--filter', '@infra/cdk', '--json'],
+			{ cwd: target }
+		)
+
+		if (!ok || !json?.[0]?.path) {
+
+			return { ok: false, error: new Error('Could not resolve @infra/cdk package path') }
+		}
+
+		const contextPath	= safePath(json[0].path, 'cdk.context.json')
+		const merged 		= { ...await readContext(), ...context }
+		await writeFile(contextPath, JSON.stringify(merged, null, '\t'))
+		return { ok: true }
 	}
 
-	const { ok, json } = await exec(cmd)
+	catch (error) {
 
-	return ok && json?.Parameter?.Value
-		? { ok: true, json: { workshop: json.Parameter.Value } }
-		: { ok: true, json: { workshop: undefined } }
+		return { ok: false, error }
+	}
+
+	async function readContext() {
+
+		try {
+
+			const content = await readFile(contextPath, 'utf-8')
+			return JSON.parse(content)
+		}
+
+		catch {
+
+			return {}
+		}
+	}
 }
 
 

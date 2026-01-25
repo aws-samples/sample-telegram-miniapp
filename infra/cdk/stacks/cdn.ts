@@ -44,17 +44,19 @@ export class CDN extends Construct {
 
         super(scope, id)
 
+        const isWorkshop    = this.node.tryGetContext('workshop')
         const cleanBase     = props.basepath.trim().replace(/^\/+/, '')
         const base          = cleanBase ? `/${cleanBase}` : ''
         const indexFile     = props.indexFile || 'index.html'
-        const lambdaOrigin  = origins.FunctionUrlOrigin.withOriginAccessControl(props.backendServer, { originId: 'Backend' })
         const s3Origin      = origins.S3BucketOrigin.withOriginAccessControl(props.staticContent, { originId: 'StaticContent' })
-        const redirector    = new cf.Function(this, 'Redirector', {
+        const lambdaOrigin  = isWorkshop
+            ? new origins.FunctionUrlOrigin(props.backendServer, { originId: 'Backend' })
+            : origins.FunctionUrlOrigin.withOriginAccessControl(props.backendServer, { originId: 'Backend' })
 
+        const redirector    = new cf.Function(this, 'Redirector', {
             functionName    :`${props.prefix}-home-redirector`,
             runtime         : cf.FunctionRuntime.JS_2_0,
             code            : cf.FunctionCode.fromInline(`function handler(event) {
-
     var request = event.request;
     var uri = request.uri;
 

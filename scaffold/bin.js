@@ -6,6 +6,7 @@ import { DEFAULT_MODEL,
 		 getRegions,
 		 getModels 			} from './regions.js'
 import { safePath,
+		 detectWorkshopEnv,
 		 validateAppName,
 		 validateBotToken,
 		 verifyBotToken 	} from './helpers.js'
@@ -47,7 +48,7 @@ async function main() {
 		process.exit(0)
 	}
 
-    const { appName, region, profile, user, accountId, accountName, botToken, botInfo, llm } = Object.assign(env, await ask_for_basic_settings(env, onCancel))
+    const { appName, region, profile, user, accountId, accountName, botToken, botInfo, llm, workshop } = Object.assign(env, await ask_for_basic_settings(env, onCancel))
 	const target = env.target || safePath(appName)
 
 	printSummary([
@@ -76,7 +77,7 @@ async function main() {
 		process.exit(0);
 	}
 
-	const success = await runDeployment({ ...env, target, appName, accountId, accountName, region, profile, user, botToken })
+	const success = await runDeployment({ ...env, target, appName, accountId, accountName, region, profile, user, botToken, workshop })
 
 	process.exit(success ? 0 : 1)
 }
@@ -135,9 +136,10 @@ async function ask_for_basic_settings(env, onCancel) {
 		{ onCancel }
 	)
 
-	const region 	= await ask_for_region(profileID, onCancel)
-	const llm    	= await ask_for_model(region, onCancel)
 	const profile	= profilesMap[profileID]
+	const workshop 	= await detectWorkshopEnv(profile)
+	const region 	= await ask_for_region(profileID, workshop?.regions, onCancel)
+	const llm    	= await ask_for_model(region, onCancel)
 
 	let botInfo = null
 
@@ -164,6 +166,7 @@ async function ask_for_basic_settings(env, onCancel) {
 
 		appName, region,
 		botToken, botInfo, llm,
+		workshop	: workshop?.prefix		|| '',
 		user  		: profile?.user			|| '',
 		profile		: profile?.profile		|| '',
 		accountId	: profile?.AccountId	|| '',
@@ -175,9 +178,9 @@ async function ask_for_basic_settings(env, onCancel) {
 
 
 
-async function ask_for_region(profile, onCancel) {
+async function ask_for_region(profile, limits, onCancel) {
 
-	const regions = getRegions()
+	const regions = getRegions().filter(i => !limits || limits.includes(i.code))
 	const padCode = Math.max(... regions.map(i => i.code.length))
 	const options = regions.map(i => ({
 

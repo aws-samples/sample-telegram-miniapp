@@ -65,6 +65,45 @@ export function detectTarget() {
 
 
 
+export async function detectWorkshopEnv(profile) {
+
+	const ws_param = '/workshop/prefix'
+
+	const ws_regions = [ 'us-east-1', 'us-west-2' ]
+
+	const results = await Promise.all(
+
+		ws_regions.map(
+
+			region => exec([
+
+				'aws', 'ssm', 'get-parameter',
+				'--output'	, 'json',
+				'--name'	, ws_param,
+				'--region'	, region,
+				...(profile ? ['--profile', safeProfile(profile)] : [])
+			])
+		)
+	)
+
+	const ws = results.find(i => i.ok && i.json?.Parameter?.Value)
+
+	if (ws) {
+
+		return {
+
+			prefix	: ws.json?.Parameter?.Value,
+			regions	: ws_regions
+		}
+	}
+
+	return undefined
+}
+
+
+
+
+
 export function safePath(target, ...segments) {
 
 	const base 		= path.resolve(process.cwd())
