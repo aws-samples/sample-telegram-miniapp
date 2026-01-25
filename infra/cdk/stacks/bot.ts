@@ -61,6 +61,8 @@ export class Bot extends Construct {
 
         const global = new BotGlobalStack(props.global.scope(this), props)
 
+        const isWorkshop = this.node.tryGetContext('workshop')
+
         const cffWebhookValidator = props.telegram.firewall !== 'cff' ? undefined : new cf.Function(this, 'WebhookValidationFunction', {
 
             functionName    :`${props.prefix}-bot-webhook-validator`,
@@ -69,7 +71,9 @@ export class Bot extends Construct {
             runtime         : cf.FunctionRuntime.JS_2_0
         })
 
-        const lambdaOrigin = origins.FunctionUrlOrigin.withOriginAccessControl(props.backendServer, { originId: 'Webhook' })
+        const lambdaOrigin = isWorkshop
+            ? new origins.FunctionUrlOrigin(props.backendServer, { originId: 'Webhook' })
+            : origins.FunctionUrlOrigin.withOriginAccessControl(props.backendServer, { originId: 'Webhook' })
 
         const route_to_TgBot: cf.BehaviorOptions = {
 
