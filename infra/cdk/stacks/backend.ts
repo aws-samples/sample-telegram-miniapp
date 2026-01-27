@@ -175,6 +175,22 @@ export class Backend extends Construct {
                                 ]
                             })
                         ]
+                    }),
+
+                    marketplace: new iam.PolicyDocument({
+
+                        statements: [
+
+                            new iam.PolicyStatement({
+
+                                effect  : iam.Effect.ALLOW,
+                                actions : [
+                                    "aws-marketplace:ViewSubscriptions",
+                                    "aws-marketplace:Subscribe",
+                                ],
+                                resources: ["*"]
+                            })
+                        ]
                     })
                 }
             })
