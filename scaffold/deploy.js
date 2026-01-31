@@ -54,13 +54,13 @@ export async function runDeployment(options = {}) {
 		},
 		{
 			name		:`CDK bootstrap`,
-			command		:['pnpm', 'run', 'bootstrap', '--no-notices'],
+			command		:['pnpm', 'run', 'bootstrap', '--no-notices', ...(profile ? ['--profile', profile] : [])],
 			critical	: true,
 			progress	: true
 		},
 		{
 			name		:`Stack deployment (might take 10-15 minutes to complete)`,
-			command		:['pnpm', 'run', 'deploy', '--no-notices'],
+			command		:['pnpm', 'run', 'deploy', '--no-notices', ...(profile ? ['--profile', profile] : [])],
 			env			:{ BUILD_MODE: 'development' },
 			critical	: true,
 			progress	: true
