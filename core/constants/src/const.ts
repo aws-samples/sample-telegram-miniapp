@@ -65,7 +65,7 @@ export default {
             // - maxTokens: maximum number of tokens to generate
             // - How tokens are counted in Amazon Bedrock:
             // - https://docs.aws.amazon.com/bedrock/latest/userguide/quotas-token-burndown.html
-            max_tokens      : 10240,
+            max_tokens      : 4096,
             // - temperature: randomness (max: 1.0, default: 0.7)
             //   -- OR --
             // - topP: diversity of word choice (max: 1.0, default: 0.9)
