@@ -1,6 +1,6 @@
 import type { Route         } from "./+types/session"
 import      { CookieAuthenticator,
-              CookieJar     } from "@core/session-server"
+              CookieJar     } from "@core/session/server"
 import      { sha256, safeJson } from "@core/tools"
 import      { Logger        } from "@aws-lambda-powertools/logger"
 import        $               from "@core/constants"

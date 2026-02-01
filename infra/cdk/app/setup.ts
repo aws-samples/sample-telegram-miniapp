@@ -6,7 +6,7 @@ import { updateFirewallToken} from "../stacks/webhook"
 import { useWebhookToken,
          getDeploymentInfo,
          getBot, setBot     } from "@core/vault"
-import { calcTokenHash      } from "@core/session-server"
+import { calcTokenHash      } from "@core/session/server"
 
 
 

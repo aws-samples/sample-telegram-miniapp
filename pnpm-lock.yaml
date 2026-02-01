@@ -119,57 +119,26 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  core/session/session-client:
-    dependencies:
-      '@core/tools':
-        specifier: workspace:*
-        version: link:../../tools
-    devDependencies:
-      '@core/session-types':
-        specifier: workspace:*
-        version: link:../session-types
-      '@tma.js/types':
-        specifier: ^1.0.2
-        version: 1.0.2
-      '@types/node':
-        specifier: ^25.0.7
-        version: 25.0.7
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-
-  core/session/session-server:
+  core/session:
     dependencies:
       '@aws-lambda-powertools/logger':
         specifier: ^2.30.2
         version: 2.30.2
-      '@aws-lambda-powertools/parameters':
-        specifier: ^2.30.2
-        version: 2.30.2(@aws-sdk/client-dynamodb@3.967.0(aws-crt@1.27.5))(@aws-sdk/client-secrets-manager@3.967.0(aws-crt@1.27.5))(@aws-sdk/client-ssm@3.967.0(aws-crt@1.27.5))(@aws-sdk/util-dynamodb@3.967.0(@aws-sdk/client-dynamodb@3.967.0(aws-crt@1.27.5)))
       '@core/constants':
         specifier: workspace:*
-        version: link:../../constants
+        version: link:../constants
       '@core/db':
         specifier: workspace:*
-        version: link:../../db
+        version: link:../db
+      '@core/tools':
+        specifier: workspace:*
+        version: link:../tools
       '@core/vault':
         specifier: workspace:*
-        version: link:../../vault
+        version: link:../vault
       cookie:
         specifier: ^1.1.1
         version: 1.1.1
-    devDependencies:
-      '@core/session-types':
-        specifier: workspace:*
-        version: link:../session-types
-      '@types/node':
-        specifier: ^25.0.7
-        version: 25.0.7
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-
-  core/session/session-types:
     devDependencies:
       '@tma.js/types':
         specifier: ^1.0.2
@@ -177,9 +146,6 @@ importers:
       '@types/node':
         specifier: ^25.0.7
         version: 25.0.7
-      cookie:
-        specifier: ^1.1.1
-        version: 1.1.1
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -241,12 +207,9 @@ importers:
       '@aws-lambda-powertools/logger':
         specifier: ^2.30.2
         version: 2.30.2
-      '@core/session-client':
+      '@core/session':
         specifier: workspace:*
-        version: link:../../core/session/session-client
-      '@core/session-server':
-        specifier: workspace:*
-        version: link:../../core/session/session-server
+        version: link:../../core/session
       '@core/tools':
         specifier: workspace:*
         version: link:../../core/tools
@@ -293,9 +256,6 @@ importers:
       '@core/constants':
         specifier: workspace:*
         version: link:../../core/constants
-      '@core/session-types':
-        specifier: workspace:*
-        version: link:../../core/session/session-types
       '@react-router/dev':
         specifier: ^7.12.0
         version: 7.12.0(@react-router/serve@7.12.0(react-router@7.12.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3))(@types/node@25.0.7)(babel-plugin-macros@3.1.0)(jiti@2.6.1)(lightningcss@1.30.2)(react-router@7.12.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(tsx@4.21.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.0.7)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))(yaml@2.8.2)
@@ -338,9 +298,9 @@ importers:
       '@core/constants':
         specifier: workspace:*
         version: link:../../core/constants
-      '@core/session-server':
+      '@core/session':
         specifier: workspace:*
-        version: link:../../core/session/session-server
+        version: link:../../core/session
       '@core/tools':
         specifier: workspace:*
         version: link:../../core/tools
@@ -436,29 +396,6 @@ packages:
       '@middy/core': 4.x || 5.x || 6.x || 7.x
     peerDependenciesMeta:
       '@aws-lambda-powertools/jmespath':
-        optional: true
-      '@middy/core':
-        optional: true
-
-  '@aws-lambda-powertools/parameters@2.30.2':
-    resolution: {integrity: sha512-RVyaINQ2PInZwBtAX9J9TiAOtrtvOby9r+TRpXEi4bSPGA4dHmt+cvCG9B2181nVAAK3DkuciPhzblzQK7CyDA==}
-    peerDependencies:
-      '@aws-sdk/client-appconfigdata': '>=3.x'
-      '@aws-sdk/client-dynamodb': '>=3.x'
-      '@aws-sdk/client-secrets-manager': '>=3.x'
-      '@aws-sdk/client-ssm': '>=3.x'
-      '@aws-sdk/util-dynamodb': '>=3.x'
-      '@middy/core': 4.x || 5.x || 6.x || 7.x
-    peerDependenciesMeta:
-      '@aws-sdk/client-appconfigdata':
-        optional: true
-      '@aws-sdk/client-dynamodb':
-        optional: true
-      '@aws-sdk/client-secrets-manager':
-        optional: true
-      '@aws-sdk/client-ssm':
-        optional: true
-      '@aws-sdk/util-dynamodb':
         optional: true
       '@middy/core':
         optional: true
@@ -2802,15 +2739,6 @@ snapshots:
     dependencies:
       '@aws-lambda-powertools/commons': 2.30.2
       '@aws/lambda-invoke-store': 0.2.3
-
-  '@aws-lambda-powertools/parameters@2.30.2(@aws-sdk/client-dynamodb@3.967.0(aws-crt@1.27.5))(@aws-sdk/client-secrets-manager@3.967.0(aws-crt@1.27.5))(@aws-sdk/client-ssm@3.967.0(aws-crt@1.27.5))(@aws-sdk/util-dynamodb@3.967.0(@aws-sdk/client-dynamodb@3.967.0(aws-crt@1.27.5)))':
-    dependencies:
-      '@aws-lambda-powertools/commons': 2.30.2
-    optionalDependencies:
-      '@aws-sdk/client-dynamodb': 3.967.0(aws-crt@1.27.5)
-      '@aws-sdk/client-secrets-manager': 3.967.0(aws-crt@1.27.5)
-      '@aws-sdk/client-ssm': 3.967.0(aws-crt@1.27.5)
-      '@aws-sdk/util-dynamodb': 3.967.0(@aws-sdk/client-dynamodb@3.967.0(aws-crt@1.27.5))
 
   '@aws-sdk/client-bedrock-runtime@3.967.0(aws-crt@1.27.5)':
     dependencies:

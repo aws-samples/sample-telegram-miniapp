@@ -1,12 +1,8 @@
-import type { User              } from "@core/session-types"
+import type { User              } from "../types/index.ts"
 import type { BinaryLike,
               KeyObject         } from "node:crypto"
 import      { createHmac        } from "node:crypto"
 import        $                   from "@core/constants"
-
-
-
-
 
 export enum ValidationError {
 
@@ -35,10 +31,6 @@ export type ValidationOptions = (
     { token     : string }
    |{ tokenHash : string }
 )  &{ maxDelay? : number }
-
-
-
-
 
 export function validate(initData: string, opt: ValidationOptions): ValidationResult {
 
@@ -109,18 +101,10 @@ export function validate(initData: string, opt: ValidationOptions): ValidationRe
     }
 }
 
-
-
-
-
 export function calcTokenHash(token: string) {
 
     return hashString(token)
 }
-
-
-
-
 
 function err(e: ValidationError, context?: Record<string, string|number|boolean|undefined|null>): ValidationResult {
 

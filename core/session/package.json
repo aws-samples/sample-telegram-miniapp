@@ -1,0 +1,41 @@
+{
+	"private": true,
+	"name": "@core/session",
+	"version": "0.0.1",
+	"license": "MIT-0",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/types/index.d.ts",
+			"default": "./dist/types/index.js"
+		},
+		"./browser": {
+			"types": "./dist/browser/index.d.ts",
+			"default": "./dist/browser/index.js"
+		},
+		"./server": {
+			"types": "./dist/server/index.d.ts",
+			"default": "./dist/server/index.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc"
+	},
+	"devDependencies": {
+		"@tma.js/types": "^1.0.2",
+		"@types/node": "^25.0.7",
+		"cookie": "^1.1.1",
+		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"@aws-lambda-powertools/logger": "^2.30.2",
+		"@core/constants": "workspace:*",
+		"@core/db": "workspace:*",
+		"@core/tools": "workspace:*",
+		"@core/vault": "workspace:*",
+		"cookie": "^1.1.1"
+	}
+}

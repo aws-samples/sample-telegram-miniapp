@@ -2,13 +2,13 @@ import type {
 
     Session,
     SessionExtension,
-    SessionValidationState      } from "@core/session-types"
+    SessionValidationState      } from "@core/session"
 
 import type {
 
     LaunchParams                } from "@tma.js/sdk"
 
-import { sendAuthRequest        } from "@core/session-client"
+import { sendAuthRequest        } from "@core/session/browser"
 import { isBrowser              } from "@core/tools"
 import { useEffect, useState    } from "react"
 import { useHref                } from "react-router"
