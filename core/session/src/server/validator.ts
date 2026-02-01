@@ -1,36 +1,21 @@
-import type { User              } from "../types/index.ts"
+import type { User,
+              ValidationResult,
+              ValidationOptions } from "../types"
 import type { BinaryLike,
               KeyObject         } from "node:crypto"
 import      { createHmac        } from "node:crypto"
+import      { ValidationError   } from "../types/validator"
 import        $                   from "@core/constants"
 
-export enum ValidationError {
 
-    INPUT       = 'INVALID_INPUT',
-    HASHKEY     = 'INVALID_HASHKEY',
-    DELAY       = 'INVALID_DELAY_TOLERANCE',
-    SIGNATURE   = 'INVALID_SIGNATURE',
-    EXPIRED     = 'EXPIRED',
-    UNKNOWN     = 'UNKNOWN'
-}
 
-export type ValidationResult = ({
 
-    ok          : true
-    duration    : number
-    user        : User
 
-} | {
-
-    ok          : false
-    reason      : ValidationError
-    context?    : Record<string, string|number|boolean|undefined|null>
-})
-
-export type ValidationOptions = (
-    { token     : string }
-   |{ tokenHash : string }
-)  &{ maxDelay? : number }
+// ╭────────────────────────────────────────────────────────────────────────────────────────╮
+// │                                                                                        │
+// │    Helpers                                                                             │
+// │                                                                                        │
+// ╰────────────────────────────────────────────────────────────────────────────────────────╯
 
 export function validate(initData: string, opt: ValidationOptions): ValidationResult {
 
@@ -55,12 +40,12 @@ export function validate(initData: string, opt: ValidationOptions): ValidationRe
 
         if (!validString(hash, data)) {
 
-            return err(ValidationError.INPUT, { initData, hash, data })
+            return err(ValidationError.INPUT)
         }
 
         if (!positiveNumber(ts)) {
 
-            return err(ValidationError.INPUT, { initData, ts })
+            return err(ValidationError.INPUT)
         }
 
         const delay = Math.round(Date.now()/1000 - ts)
@@ -85,9 +70,9 @@ export function validate(initData: string, opt: ValidationOptions): ValidationRe
 
             return user ?
                 {
-                    ok: true,
+                    ok      : true,
                     duration: delay,
-                    user: JSON.parse(user) as User
+                    user    : JSON.parse(user) as User
                 }
                 : err(ValidationError.UNKNOWN)
         }
@@ -101,9 +86,34 @@ export function validate(initData: string, opt: ValidationOptions): ValidationRe
     }
 }
 
+
+
+
+
+// ╭────────────────────────────────────────────────────────────────────────────────────────╮
+// │                                                                                        │
+// │    Helpers                                                                             │
+// │                                                                                        │
+// ╰────────────────────────────────────────────────────────────────────────────────────────╯
+
 export function calcTokenHash(token: string) {
 
     return hashString(token)
+}
+
+function getHashKey(opt: ValidationOptions): Buffer | undefined {
+
+    if ('tokenHash' in opt && opt.tokenHash && typeof opt.tokenHash === 'string') {
+
+        return Buffer.from(opt.tokenHash, 'hex')
+    }
+
+    if ('token' in opt && opt.token && typeof opt.token === 'string') {
+
+        return hashBinary(opt.token)
+    }
+
+    return undefined
 }
 
 function err(e: ValidationError, context?: Record<string, string|number|boolean|undefined|null>): ValidationResult {
@@ -124,21 +134,6 @@ function validString(...args: any[]): boolean {
 function positiveNumber(...args: any[]): boolean {
 
     return args.reduce((acc, i) => acc && i && typeof i === 'number' && !isNaN(i) && i > 0, true)
-}
-
-function getHashKey(opt: ValidationOptions): Buffer | undefined {
-
-    if ('tokenHash' in opt && opt.tokenHash && typeof opt.tokenHash === 'string') {
-
-        return Buffer.from(opt.tokenHash, 'hex')
-    }
-
-    if ('token' in opt && opt.token && typeof opt.token === 'string') {
-
-        return hashBinary(opt.token)
-    }
-
-    return undefined
 }
 
 function hashString(input: string, key: BinaryLike|KeyObject = $.telegram.session.hash.key): string {

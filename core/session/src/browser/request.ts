@@ -29,7 +29,12 @@ export async function sendAuthRequest<SESSION = Session>
 
     if (resp && resp.ok) {
 
-        return await resp.json() as SESSION
+        try {
+
+            return await resp.json() as SESSION
+        }
+
+        catch {}
     }
 
     return undefined

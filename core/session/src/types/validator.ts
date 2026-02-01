@@ -1,14 +1,29 @@
-import type { SerializeOptions  } from "cookie"
-import type { AuthRequest       } from "./request.ts"
-import type { Session,
-              SessionExtension  } from "./session.ts"
+import type { User } from "./session"
 
-export interface Authenticator<STORE, EX extends SessionExtension = {}> {
-    login(store: STORE, request: AuthRequest<EX>): Promise<Session<EX>|undefined>
-    authenticate(store: STORE): Promise<Session<EX>|undefined>
+export enum ValidationError {
+
+    INPUT       = 'INVALID_INPUT',
+    HASHKEY     = 'INVALID_HASHKEY',
+    DELAY       = 'INVALID_DELAY_TOLERANCE',
+    SIGNATURE   = 'INVALID_SIGNATURE',
+    EXPIRED     = 'EXPIRED',
+    UNKNOWN     = 'UNKNOWN'
 }
 
-export interface CookieProvider {
-    get(name: string): string | undefined
-    set(name: string, value: string, options: SerializeOptions): void
-}
+export type ValidationResult = ({
+
+    ok          : true
+    duration    : number
+    user        : User
+
+} | {
+
+    ok          : false
+    reason      : ValidationError
+    context?    : Record<string, string|number|boolean|undefined|null>
+})
+
+export type ValidationOptions = (
+    { token     : string }
+   |{ tokenHash : string }
+)  &{ maxDelay? : number }
