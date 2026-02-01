@@ -4,7 +4,7 @@ import type {
     BotParam,
     DeploymentParam } from "./types"
 import { Vault      } from "./store"
-import { sha256     } from "@core/tools-server"
+import { sha256Sync as sha256 } from "@core/tools"
 import   $            from "@core/constants"
 
 

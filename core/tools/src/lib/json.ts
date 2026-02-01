@@ -1,11 +1,11 @@
 import type { BinaryLike    } from "crypto"
-import      { sha256        } from "./hash"
+import      { sha256        } from "./hash.browser"
 
 
 
 
 
-export type Hasher = (data: BinaryLike) => string
+export type Hasher = (data: BinaryLike) => string | Promise<string>
 
 export interface SafeJsonResult {
 

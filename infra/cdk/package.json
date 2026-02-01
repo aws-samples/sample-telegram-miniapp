@@ -37,7 +37,6 @@
         "@core/constants": "workspace:*",
         "@core/session-server": "workspace:*",
         "@core/tools": "workspace:*",
-        "@core/tools-server": "workspace:*",
         "@core/vault": "workspace:*",
         "@gui/react": "workspace:*",
         "@tg/bot": "workspace:*",

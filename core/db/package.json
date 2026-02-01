@@ -21,6 +21,6 @@
 		"@aws-sdk/client-dynamodb": "^3.967.0",
 		"@aws-sdk/lib-dynamodb": "^3.967.0",
 		"@core/constants": "workspace:*",
-		"@core/tools-server": "workspace:*"
+		"@core/tools": "workspace:*"
 	}
 }

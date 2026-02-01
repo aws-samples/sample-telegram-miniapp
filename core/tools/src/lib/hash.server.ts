@@ -15,6 +15,11 @@ export function sha256(data: BinaryLike, encoding: BinaryToTextEncoding = 'hex')
     return createHash('sha256').update(data).digest(encoding)
 }
 
+export function sha256Sync(data: BinaryLike, encoding: BinaryToTextEncoding = 'hex'): string {
+
+    return createHash('sha256').update(data).digest(encoding)
+}
+
 export function md5(data: BinaryLike, encoding: BinaryToTextEncoding = 'hex'): string {
 
     return createHash('md5').update(data).digest(encoding)

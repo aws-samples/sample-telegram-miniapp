@@ -1,6 +1,6 @@
 import type {IConstruct } from "constructs"
 import { Stack, Token   } from "aws-cdk-lib"
-import { sha256         } from "@core/tools-server"
+import { sha256Sync as sha256 } from "@core/tools"
 import   $                from "@core/constants"
 
 

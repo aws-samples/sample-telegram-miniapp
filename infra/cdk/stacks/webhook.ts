@@ -34,12 +34,12 @@ import {
 
 import {
 
-    sha256,
+    sha256Sync as sha256,
     randomValueSync,
     md5,
     md5binary
 
-} from "@core/tools-server"
+} from "@core/tools"
 
 
 

@@ -44,10 +44,7 @@ importers:
         version: link:../core/constants
       '@core/tools':
         specifier: workspace:*
-        version: link:../core/tools/tools-browser-compatible
-      '@core/tools-server':
-        specifier: workspace:*
-        version: link:../core/tools/tools-server
+        version: link:../core/tools
       '@core/vault':
         specifier: workspace:*
         version: link:../core/vault
@@ -77,7 +74,7 @@ importers:
     devDependencies:
       '@core/tools':
         specifier: workspace:*
-        version: link:../tools/tools-browser-compatible
+        version: link:../tools
       '@core/types':
         specifier: workspace:*
         version: link:../types
@@ -111,9 +108,9 @@ importers:
       '@core/constants':
         specifier: workspace:*
         version: link:../constants
-      '@core/tools-server':
+      '@core/tools':
         specifier: workspace:*
-        version: link:../tools/tools-server
+        version: link:../tools
     devDependencies:
       '@types/node':
         specifier: ^25.0.7
@@ -126,7 +123,7 @@ importers:
     dependencies:
       '@core/tools':
         specifier: workspace:*
-        version: link:../../tools/tools-browser-compatible
+        version: link:../../tools
     devDependencies:
       '@core/session-types':
         specifier: workspace:*
@@ -187,23 +184,11 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  core/tools/tools-browser-compatible:
+  core/tools:
     devDependencies:
       '@core/types':
         specifier: workspace:*
-        version: link:../../types
-      '@types/node':
-        specifier: ^25.0.7
-        version: 25.0.7
-      tsup:
-        specifier: ^8.5.1
-        version: 8.5.1(jiti@2.6.1)(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-
-  core/tools/tools-server:
-    devDependencies:
-      '@core/types':
-        specifier: workspace:*
-        version: link:../../types
+        version: link:../types
       '@types/node':
         specifier: ^25.0.7
         version: 25.0.7
@@ -240,10 +225,7 @@ importers:
         version: link:../constants
       '@core/tools':
         specifier: workspace:*
-        version: link:../tools/tools-browser-compatible
-      '@core/tools-server':
-        specifier: workspace:*
-        version: link:../tools/tools-server
+        version: link:../tools
       '@core/types':
         specifier: workspace:*
         version: link:../types
@@ -267,10 +249,7 @@ importers:
         version: link:../../core/session/session-server
       '@core/tools':
         specifier: workspace:*
-        version: link:../../core/tools/tools-browser-compatible
-      '@core/tools-server':
-        specifier: workspace:*
-        version: link:../../core/tools/tools-server
+        version: link:../../core/tools
       '@core/vault':
         specifier: workspace:*
         version: link:../../core/vault
@@ -364,10 +343,7 @@ importers:
         version: link:../../core/session/session-server
       '@core/tools':
         specifier: workspace:*
-        version: link:../../core/tools/tools-browser-compatible
-      '@core/tools-server':
-        specifier: workspace:*
-        version: link:../../core/tools/tools-server
+        version: link:../../core/tools
       '@core/vault':
         specifier: workspace:*
         version: link:../../core/vault

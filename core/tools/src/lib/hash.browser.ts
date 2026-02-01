@@ -1,3 +1,4 @@
+// Browser-compatible hash using Web Crypto API
 export async function sha256(data: BufferSource): Promise<string> {
 
       const hashBuffer = await crypto.subtle.digest('SHA-256', data)

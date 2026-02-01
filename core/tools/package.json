@@ -1,0 +1,34 @@
+{
+	"private": true,
+	"name": "@core/tools",
+	"version": "0.0.1",
+	"license": "MIT-0",
+	"type": "module",
+	"exports": {
+		".": {
+			"browser": {
+				"types": "./dist/browser.d.ts",
+				"default": "./dist/browser.js"
+			},
+			"node": {
+				"types": "./dist/server.d.ts",
+				"default": "./dist/server.js"
+			},
+			"default": {
+				"types": "./dist/browser.d.ts",
+				"default": "./dist/browser.js"
+			}
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsup"
+	},
+	"devDependencies": {
+		"@core/types": "workspace:*",
+		"@types/node": "^25.0.7",
+		"tsup": "^8.5.1"
+	}
+}

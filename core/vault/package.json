@@ -15,7 +15,6 @@
 	"devDependencies": {
 		"@core/constants": "workspace:*",
 		"@core/tools": "workspace:*",
-		"@core/tools-server": "workspace:*",
 		"@core/types": "workspace:*",
 		"@types/node": "^25.0.7",
 		"tsup": "^8.5.1"
