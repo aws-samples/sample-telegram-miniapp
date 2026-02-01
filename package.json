@@ -2,7 +2,7 @@
 	"name": "miniapp-sample",
 	"version": "0.0.1",
 	"license": "MIT-0",
-	"packageManager": "pnpm@10.28.0",
+	"packageManager": "pnpm@10.28.2",
 	"engines": {
 		"node": ">=20.19.5",
 		"pnpm": ">=10.20.0"
@@ -34,7 +34,13 @@
 		"cross-spawn": "^7.0.6",
 		"grammy": "^1.39.2",
 		"picocolors": "^1.1.1",
-		"pnpm": "^10.28.0",
+		"pnpm": "^10.28.2",
 		"yaml": "^2.8.2"
+	},
+	"pnpm": {
+		"overrides": {
+			"lodash": ">=4.17.23",
+			"fast-xml-parser": ">=5.3.4"
+		}
 	}
 }

@@ -31,8 +31,8 @@
         "typescript": "^5.9.3"
     },
     "dependencies": {
-        "@aws-sdk/client-cloudfront": "^3.967.0",
-        "@aws-sdk/client-wafv2": "^3.967.0",
+        "@aws-sdk/client-cloudfront": "^3.980.0",
+        "@aws-sdk/client-wafv2": "^3.980.0",
         "@clack/prompts": "^0.11.0",
         "@core/constants": "workspace:*",
         "@core/session": "workspace:*",
