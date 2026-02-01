@@ -1,3 +1,12 @@
+if (typeof window !== 'undefined' || typeof document !== 'undefined') {
+
+    throw new Error(
+
+        '[server.ts] This module contains server-only configuration and cannot be imported in a browser environment. ' +
+        'Use @core/constants/browser for client-safe constants.'
+    )
+}
+
 import type { GlobalConstants     } from "./types"
 import type { UserInputs, Metadata} from "../metadata/types"
 import {
