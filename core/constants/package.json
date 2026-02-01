@@ -4,8 +4,20 @@
 	"version": "0.0.1",
 	"license": "MIT-0",
 	"type": "module",
-	"main": "dist/const.js",
-	"types": "dist/const.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/server.d.ts",
+			"default": "./dist/server.js"
+		},
+		"./browser": {
+			"types": "./dist/browser.d.ts",
+			"default": "./dist/browser.js"
+		},
+		"./types": {
+			"types": "./dist/types.d.ts",
+			"default": "./dist/types.js"
+		}
+	},
 	"files": [
 		"dist"
 	],
