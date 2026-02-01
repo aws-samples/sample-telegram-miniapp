@@ -16,4 +16,5 @@ export default defineConfig({
     treeshake       : true,
     minify          : true,
     minifyWhitespace: true,
+    external        : ["node:crypto"],
 })
