@@ -291,10 +291,11 @@ export class AppStack extends cdk.Stack {
     // ╰───────────────────────────────────────────────────────────────────────────────────────╯
 
         theDB.grantReadWriteData(theBackend.server)
-        theBackend.deployStaticContent(theCDN.cdn)
+        theLogs.grantWrite(theCDN.cdn, theBot.cdn)
         theParams.grantRead(theBackend.server)
         theParams.grantDeploymentAccess(theDev.project)
-        theLogs.grantWrite(theCDN.cdn, theBot.cdn)
+        theBackend.allowInvokation(theCDN.cdn, theBot.cdn)
+        theBackend.deployStaticContent(theCDN.cdn)
 
     // ╭───────────────────────────────────────────────────────────────────────────────────────╮
     // │                                                                                       │

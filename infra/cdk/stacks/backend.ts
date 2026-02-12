@@ -1,4 +1,4 @@
-import type { IDistributionRef  } from "aws-cdk-lib/aws-cloudfront"
+import type { IDistribution     } from "aws-cdk-lib/aws-cloudfront"
 import   * as cdk                 from "aws-cdk-lib"
 import   * as iam                 from "aws-cdk-lib/aws-iam"
 import   * as s3                  from "aws-cdk-lib/aws-s3"
@@ -46,7 +46,7 @@ export class Backend extends Construct {
     #bucket         : s3.Bucket
     #lambda         : lambda.Function
     #url            : lambda.FunctionUrl
-    #runDeployment  : undefined | ((distribution: IDistributionRef) => void)
+    #runDeployment  : undefined | ((distribution: IDistribution) => void)
 
     get url() {
 
@@ -63,7 +63,20 @@ export class Backend extends Construct {
         return this.#bucket
     }
 
-    deployStaticContent(distribution: IDistributionRef) {
+    allowInvokation(...distributions: IDistribution[]) {
+
+        distributions.filter(Boolean).forEach((cdn, n) => {
+
+            this.#lambda.addPermission(`AllowCloudFront_${n}`, {
+
+                principal   : new iam.ServicePrincipal('cloudfront.amazonaws.com'),
+                action      :'lambda:InvokeFunction',
+                sourceArn   :`arn:aws:cloudfront::${Stack.of(cdn).account}:distribution/${cdn.distributionId}`,
+            })
+        })
+    }
+
+    deployStaticContent(distribution: IDistribution) {
 
         if (typeof this.#runDeployment === 'function') {
 
@@ -204,7 +217,7 @@ export class Backend extends Construct {
 
         if (!skipGUI && existsSync(guiStatic)) {
 
-            const doS3Deployment = (distribution: IDistributionRef | undefined ) => {
+            const doS3Deployment = (distribution: IDistribution | undefined ) => {
 
                 new s3Deployment.BucketDeployment(this, 'WebDeployment', {
 
