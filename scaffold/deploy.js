@@ -68,6 +68,7 @@ export async function runDeployment(options = {}) {
 		{
 			name		:`Describe application stack`,
 			command		:['pnpm', '--silent', 'run', 'report', '--output', report],
+			env			: profile ? { AWS_PROFILE: profile } : undefined,
 			context		: report => Object.assign($, {report}),
 			critical	: true
 		},
@@ -81,6 +82,7 @@ export async function runDeployment(options = {}) {
 		{
 			name		:`App initialization`,
 		get command()	{ return $.bot?.token ? ['pnpm', 'run', 'setup', '--token', $.bot.token] : false },
+			env			: profile ? { AWS_PROFILE: profile } : undefined,
 			critical	: true,
 			progress	: true
 		},
