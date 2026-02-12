@@ -26,7 +26,8 @@
 	},
 	"pnpm": {
 		"overrides": {
-			"lodash": ">=4.17.23"
+			"lodash": ">=4.17.23",
+			"fast-xml-parser": ">=5.3.4"
 		}
 	},
 	"dependencies": {
@@ -37,10 +38,20 @@
 		"pnpm": "^10.28.2",
 		"yaml": "^2.8.2"
 	},
-	"pnpm": {
-		"overrides": {
-			"lodash": ">=4.17.23",
-			"fast-xml-parser": ">=5.3.4"
-		}
-	}
+	"description": "This code sample demonstrates how to deploy Telegram Mini Apps and Telegram Bot applications to AWS serverless infrastructure using popular web frameworks with Server-Side Rendering support.",
+	"main": "index.js",
+	"directories": {
+		"doc": "docs"
+	},
+	"devDependencies": {},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/aws-samples/sample-telegram-miniapp.git"
+	},
+	"keywords": [],
+	"author": "",
+	"bugs": {
+		"url": "https://github.com/aws-samples/sample-telegram-miniapp/issues"
+	},
+	"homepage": "https://github.com/aws-samples/sample-telegram-miniapp#readme"
 }

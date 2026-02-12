@@ -123,9 +123,11 @@ export default {
 
         cookie  : {
 
+            // please make sure that the domain name DOES NOT belong to PSL list:
+            // https://publicsuffix.org/list/public_suffix_list.dat
+            domain  : undefined,
             name    :'SESSION',
             path    :'/',
-            domain  :'.cloudfront.net',
             max_age : 14_400,       // 4 hr
             keys_ttl: 12*3600_000
         },

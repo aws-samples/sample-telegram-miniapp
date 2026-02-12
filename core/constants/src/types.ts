@@ -86,7 +86,7 @@ export interface GlobalConstants {
             path    : string
             max_age : number
             keys_ttl: number
-            domain  : string
+            domain  : string | undefined
         }
 
         max_payload_size    : number
