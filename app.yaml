@@ -24,7 +24,7 @@ cdn:
   # https://aws.amazon.com/waf/pricing/
   # https://aws.amazon.com/cloudfront/pricing/
   # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/flat-rate-pricing-plan.html
-  firewall: true
+  firewall: false
 
   # Block access from specific countries using geo-restrictions.
   # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/georestrictions.html
