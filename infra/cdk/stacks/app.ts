@@ -71,7 +71,10 @@ export class AppStack extends cdk.Stack {
 
         super(scope, id, Object.assign(props, {
 
-            crossRegionReferences: $.artifacts.cdn.waf && region !== "us-east-1"
+            // Cross-region references needed when:
+            // 1. WAF is enabled (WAF for CloudFront must be in us-east-1)
+            // 2. Lambda@Edge (BodyHasher) is used (always deployed to us-east-1)
+            crossRegionReferences: region !== "us-east-1"
         }))
 
     // ╭───────────────────────────────────────────────────────────────────────────────────────╮
