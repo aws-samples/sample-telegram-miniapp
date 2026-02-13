@@ -140,8 +140,10 @@ export interface GlobalConstants {
 
         cdn: {
 
-            waf : boolean
-            geo : { deny: string[] }
+            waf         : boolean
+            geo         : { deny: string[] }
+            domain      : undefined | string
+            certificate : undefined | string
             wait_for_cdn_cache_invalidation: boolean
         }
 

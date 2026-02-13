@@ -6,6 +6,7 @@ import { NagSuppressions    } from "cdk-nag"
 import * as s3                from "aws-cdk-lib/aws-s3"
 import * as cf                from "aws-cdk-lib/aws-cloudfront"
 import * as origins           from "aws-cdk-lib/aws-cloudfront-origins"
+import * as acm               from "aws-cdk-lib/aws-certificatemanager"
 
 
 
@@ -23,6 +24,8 @@ export interface CdnProps {
     firewall           ?: string
     indexFile          ?: string
     geoRestrictions    ?: string[]
+    domain             ?: string
+    certificate        ?: string
 }
 
 export class CDN extends Construct {
@@ -125,6 +128,8 @@ export class CDN extends Construct {
             logFilePrefix           :'web',
             defaultRootObject       : cleanBase ? `${cleanBase}/${indexFile}` : indexFile,
             defaultBehavior         : route_to_S3,
+            domainNames             : props.domain ? [props.domain] : undefined,
+            certificate             : props.certificate ? acm.Certificate.fromCertificateArn(this, 'Certificate', props.certificate) : undefined,
             additionalBehaviors     : {
 
                 [`${base}`]         : route_to_home,

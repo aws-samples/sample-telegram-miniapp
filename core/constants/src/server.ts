@@ -149,8 +149,10 @@ export default {
 
         cdn: {
 
-            waf: Boolean(user.cdn.firewall),
-            geo: { deny: user.cdn.geo.deny },
+            waf         : Boolean(user.cdn.firewall),
+            geo         : { deny: user.cdn.geo.deny },
+            domain      : user.cdn.domain,
+            certificate : user.cdn.certificate,
             wait_for_cdn_cache_invalidation: true
         },
 

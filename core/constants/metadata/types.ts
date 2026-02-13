@@ -1,4 +1,4 @@
-import type { Firewall, Account, Region } from "@core/types"
+import type { Firewall, Account, Region, ARN } from "@core/types"
 
 export interface UserInputs {
 
@@ -18,6 +18,8 @@ export interface UserInputs {
     cdn: {
 
         firewall    : boolean
+        domain      : undefined | string
+        certificate : undefined | ARN
         geo         : {
 
             deny    : string[]

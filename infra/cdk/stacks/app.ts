@@ -120,6 +120,8 @@ export class AppStack extends cdk.Stack {
             geoRestrictions     : $.artifacts.cdn.geo.deny,
             basepath            : $.artifacts.lambda.gui.basepath,            
             production          : $.artifacts.dev.production,
+            domain              : $.artifacts.cdn.domain,
+            certificate         : $.artifacts.cdn.certificate,
         })
 
         const theBot            = new Bot(this, "Bot", {
