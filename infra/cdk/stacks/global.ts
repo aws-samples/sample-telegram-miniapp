@@ -1,3 +1,4 @@
+import   $                  from "@core/constants"
 import { Construct        } from "constructs"
 import { Stack            } from "aws-cdk-lib"
 import * as waf             from "aws-cdk-lib/aws-wafv2"
@@ -64,35 +65,38 @@ export class GlobalStack extends Construct {
 
         this.#deployment = global
 
-        this.#webACL = new waf.CfnWebACL(global.scope(this), 'Firewall:Web', {
+        if ($.artifacts.cdn.waf) {
 
-            scope           :'CLOUDFRONT',
-            name            :`${props.prefix}-web`,
-            defaultAction   : { allow: {} },
-            visibilityConfig: {
-                metricName              :'firewall',
-                cloudWatchMetricsEnabled: true,
-                sampledRequestsEnabled  : true,
-            },
-            rules: [
-                {
-                    name        : 'ip_reputation',
-                    priority    : 1,
-                    statement   : {
-                        managedRuleGroupStatement: {
-                            vendorName  :'AWS',
-                            name        :'AWSManagedRulesAmazonIpReputationList',
+            this.#webACL = new waf.CfnWebACL(global.scope(this), 'Firewall:Web', {
+
+                scope           :'CLOUDFRONT',
+                name            :`${props.prefix}-web`,
+                defaultAction   : { allow: {} },
+                visibilityConfig: {
+                    metricName              :'firewall',
+                    cloudWatchMetricsEnabled: true,
+                    sampledRequestsEnabled  : true,
+                },
+                rules: [
+                    {
+                        name        : 'ip_reputation',
+                        priority    : 1,
+                        statement   : {
+                            managedRuleGroupStatement: {
+                                vendorName  :'AWS',
+                                name        :'AWSManagedRulesAmazonIpReputationList',
+                            },
                         },
-                    },
-                    overrideAction  : { none: {} },
-                    visibilityConfig: {
-                        metricName              :'ip_reputation',
-                        cloudWatchMetricsEnabled: true,
-                        sampledRequestsEnabled  : true,
-                    },
-                }
-            ],
-        })
+                        overrideAction  : { none: {} },
+                        visibilityConfig: {
+                            metricName              :'ip_reputation',
+                            cloudWatchMetricsEnabled: true,
+                            sampledRequestsEnabled  : true,
+                        },
+                    }
+                ],
+            })
+        }
     }
 }
 
