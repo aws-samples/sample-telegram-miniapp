@@ -63,7 +63,7 @@ export class CDN extends Construct {
     var request = event.request;
     var uri = request.uri;
 
-    if (uri === '${base}' || uri === '${base}/') {
+    if (uri === '/' || uri === '${base}' || uri === '${base}/') {
 
         request.uri = '${base}/${indexFile}';
     }
@@ -103,7 +103,7 @@ export class CDN extends Construct {
         const route_to_Backend: cf.BehaviorOptions = {
 
             origin                  : lambdaOrigin,
-            viewerProtocolPolicy    : cf.ViewerProtocolPolicy.HTTPS_ONLY,
+            viewerProtocolPolicy    : cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
             allowedMethods          : cf.AllowedMethods.ALLOW_ALL,
             cachePolicy             : cf.CachePolicy.CACHING_DISABLED,
             originRequestPolicy     : cf.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
@@ -122,19 +122,20 @@ export class CDN extends Construct {
             priceClass              : cf.PriceClass.PRICE_CLASS_ALL,
             httpVersion             : cf.HttpVersion.HTTP2_AND_3,
             webAclId                : props.firewall,
-            enableLogging           : true,
-            logIncludesCookies      : false,
-            logBucket               : props.logBucket,
-            logFilePrefix           :'web',
+            enableLogging           : false,
             defaultRootObject       : cleanBase ? `${cleanBase}/${indexFile}` : indexFile,
-            defaultBehavior         : route_to_S3,
+            defaultBehavior         : base ? route_to_S3 : route_to_home,
             domainNames             : props.domain ? [props.domain] : undefined,
             certificate             : props.certificate ? acm.Certificate.fromCertificateArn(this, 'Certificate', props.certificate) : undefined,
-            additionalBehaviors     : {
+            additionalBehaviors     : base ? {
 
                 [`${base}`]         : route_to_home,
                 [`${base}/`]        : route_to_home,
                 [`${base}/*`]       : route_to_Backend
+            } : {
+                ['/assets/*']       : route_to_S3,
+                ['/images/*']       : route_to_S3,
+                ['/*']              : route_to_Backend
             }
         })
 
@@ -144,6 +145,10 @@ export class CDN extends Construct {
             {
                 id          : 'AwsSolutions-CFR4',
                 reason      : 'Using cloudfront.net domain'
+            },
+            {
+                id          : 'AwsSolutions-CFR3',
+                reason      : 'Access logging disabled to use CloudFront Free tier'
             }
         ], true)
     }

@@ -153,7 +153,7 @@ export default {
             geo         : { deny: user.cdn.geo.deny },
             domain      : user.cdn.domain,
             certificate : user.cdn.certificate,
-            wait_for_cdn_cache_invalidation: true
+            wait_for_cdn_cache_invalidation: false
         },
 
         params: {

@@ -227,6 +227,7 @@ export class Backend extends Construct {
 
                         s3Deployment.Source.asset(guiStatic)
                     ],
+                    memoryLimit: 512,
                     waitForDistributionInvalidation: props.production && props.waitForCacheInv
                 })
             }

@@ -93,6 +93,23 @@ export class GlobalStack extends Construct {
                             cloudWatchMetricsEnabled: true,
                             sampledRequestsEnabled  : true,
                         },
+                    },
+                    {
+                        name        : 'rate_limit',
+                        priority    : 2,
+                        statement   : {
+                            rateBasedStatement: {
+                                limit               : 100,
+                                evaluationWindowSec : 300,
+                                aggregateKeyType    : 'IP',
+                            },
+                        },
+                        action          : { block: {} },
+                        visibilityConfig: {
+                            metricName              : 'rate_limit',
+                            cloudWatchMetricsEnabled: true,
+                            sampledRequestsEnabled  : true,
+                        },
                     }
                 ],
             })

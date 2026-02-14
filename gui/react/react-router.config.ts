@@ -7,7 +7,7 @@ export default {
 
     ssr         : true,
     prerender   : ["/"],
-    basename    : $.artifacts.lambda.gui.basepath,
+    basename    : $.artifacts.lambda.gui.basepath || '/',
     future      : {
 
         v8_splitRouteModules: "enforce"
