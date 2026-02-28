@@ -27,7 +27,8 @@
 	"pnpm": {
 		"overrides": {
 			"lodash": ">=4.17.23",
-			"fast-xml-parser": ">=5.3.4"
+			"fast-xml-parser": ">=5.3.8",
+			"minimatch": ">=3.1.4"
 		}
 	},
 	"dependencies": {
