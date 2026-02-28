@@ -85,7 +85,7 @@ function QRScanner({ tg } : { tg: TelegramState }) {
                 <div className="bg-black flex items-center justify-center p-8">
                     {/* QR Code */}
                     <img
-                        src="/qrcode.svg"
+                        src={`${import.meta.env.BASE_URL}qrcode.svg`}
                         alt="QR Code"
                         className="w-32 h-32"
                     />
