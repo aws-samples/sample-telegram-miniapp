@@ -20,6 +20,7 @@ export interface CdnProps {
     backendServer       : IFunctionUrl
     staticContent       : IBucket
     basepath            : string
+    staticpath          : string
     bodyHasher         ?: IVersion
     firewall           ?: string
     indexFile          ?: string
@@ -48,26 +49,33 @@ export class CDN extends Construct {
         super(scope, id)
 
         const isWorkshop    = this.node.tryGetContext('workshop')
-        const cleanBase     = props.basepath.trim().replace(/^\/+/, '')
+        const cleanBase     = (props.basepath || '').trim().replace(/^\/+/, '')
         const base          = cleanBase ? `/${cleanBase}` : ''
-        const indexFile     = props.indexFile || 'index.html'
+        const staticBase    = props.staticpath.trim().replace(/^\/+/, '').replace(/\/+$/, '')
         const s3Origin      = origins.S3BucketOrigin.withOriginAccessControl(props.staticContent, { originId: 'StaticContent' })
         const lambdaOrigin  = isWorkshop
             ? new origins.FunctionUrlOrigin(props.backendServer, { originId: 'Backend' })
             : origins.FunctionUrlOrigin.withOriginAccessControl(props.backendServer, { originId: 'Backend' })
 
-        const redirector    = new cf.Function(this, 'Redirector', {
-            functionName    :`${props.prefix}-home-redirector`,
+        const notFound      = new cf.Function(this, 'NotFound', {
+            functionName    :`${props.prefix}-not-found`,
             runtime         : cf.FunctionRuntime.JS_2_0,
             code            : cf.FunctionCode.fromInline(`function handler(event) {
-    var request = event.request;
-    var uri = request.uri;
+    return {
+        statusCode: 404,
+        statusDescription: 'Not Found',
+        headers: { 'content-type': { value: 'text/plain' } },
+        body: { encoding: 'text', data: 'Not Found' }
+    };
+}`)
+        })
 
-    if (uri === '/' || uri === '${base}' || uri === '${base}/') {
-
-        request.uri = '${base}/${indexFile}';
-    }
-
+        const homeRewriter  = new cf.Function(this, 'HomeRewriter', {
+            functionName    :`${props.prefix}-home-rewriter`,
+            runtime         : cf.FunctionRuntime.JS_2_0,
+            code            : cf.FunctionCode.fromInline(`function handler(event) {
+    const request = event.request;
+    request.uri = '/${staticBase}${base}/index.html';
     return request;
 }`)
         })
@@ -84,6 +92,16 @@ export class CDN extends Construct {
             functionAssociations    : []
         }
 
+        const route_to_Backend: cf.BehaviorOptions = {
+
+            origin                  : lambdaOrigin,
+            viewerProtocolPolicy    : cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+            allowedMethods          : cf.AllowedMethods.ALLOW_ALL,
+            cachePolicy             : cf.CachePolicy.CACHING_DISABLED,
+            originRequestPolicy     : cf.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
+            functionAssociations    : [],
+        }
+
         const route_to_home: cf.BehaviorOptions = {
 
             origin                  : s3Origin,
@@ -94,20 +112,22 @@ export class CDN extends Construct {
             originRequestPolicy     : cf.OriginRequestPolicy.CORS_S3_ORIGIN,
             responseHeadersPolicy   : cf.ResponseHeadersPolicy.CORS_ALLOW_ALL_ORIGINS_WITH_PREFLIGHT,
             functionAssociations    : [{
-
                 eventType           : cf.FunctionEventType.VIEWER_REQUEST,
-                function            : redirector
+                function            : homeRewriter
             }]
         }
 
-        const route_to_Backend: cf.BehaviorOptions = {
+        const route_to_404: cf.BehaviorOptions = {
 
-            origin                  : lambdaOrigin,
-            viewerProtocolPolicy    : cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-            allowedMethods          : cf.AllowedMethods.ALLOW_ALL,
-            cachePolicy             : cf.CachePolicy.CACHING_DISABLED,
-            originRequestPolicy     : cf.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
-            functionAssociations    : [],
+            origin                  : s3Origin,
+            viewerProtocolPolicy    : cf.ViewerProtocolPolicy.HTTPS_ONLY,
+            allowedMethods          : cf.AllowedMethods.ALLOW_GET_HEAD,
+            cachedMethods           : cf.CachedMethods.CACHE_GET_HEAD,
+            cachePolicy             : cf.CachePolicy.CACHING_OPTIMIZED,
+            functionAssociations    : [{
+                eventType           : cf.FunctionEventType.VIEWER_REQUEST,
+                function            : notFound
+            }]
         }
 
         this.#cdn = new cf.Distribution(this, 'Distribution', {
@@ -123,23 +143,23 @@ export class CDN extends Construct {
             httpVersion             : cf.HttpVersion.HTTP2_AND_3,
             webAclId                : props.firewall,
             enableLogging           : false,
-            defaultRootObject       : cleanBase ? `${cleanBase}/${indexFile}` : indexFile,
-            defaultBehavior         : base ? route_to_S3 : route_to_home,
+            defaultBehavior         : base ? route_to_404 : route_to_Backend,
             domainNames             : props.domain ? [props.domain] : undefined,
             certificate             : props.certificate ? acm.Certificate.fromCertificateArn(this, 'Certificate', props.certificate) : undefined,
-            additionalBehaviors     : base ? {
+            additionalBehaviors     : {
 
-                [`${base}`]         : route_to_home,
-                [`${base}/`]        : route_to_home,
-                [`${base}/*`]       : route_to_Backend
-            } : {
-                ['/assets/*']       : route_to_S3,
-                ['/images/*']       : route_to_S3,
-                ['/*']              : route_to_Backend
+                [`/${staticBase}/*`]    : route_to_S3,
+                ...(base ? {
+                    [`${base}`]         : route_to_home,
+                    [`${base}/`]        : route_to_home,
+                    [`${base}/*`]       : route_to_Backend,
+                } : {
+                    ['/']               : route_to_home,
+                })
             }
         })
 
-        this.#basepath = base
+        this.#basepath = base || '/'
 
         NagSuppressions.addResourceSuppressions(this, [
             {

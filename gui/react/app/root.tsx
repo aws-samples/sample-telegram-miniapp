@@ -1,6 +1,5 @@
 import type { Route     } from "./+types/root"
 import { useTelegram    } from "~/telegram"
-import { useHref        } from "react-router"
 import {    
     isRouteErrorResponse,
     Links,
@@ -23,7 +22,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <Meta />
                 <Links />
-                <link rel="icon" href="/favicon.jpg" type="image/jpeg"></link>
+                <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.jpg`} type="image/jpeg"></link>
             </head>
             <body>
                 {children}

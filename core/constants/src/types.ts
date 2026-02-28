@@ -112,6 +112,7 @@ export interface GlobalConstants {
                 // static      : string
                 package     : string
                 basepath    : string
+                staticpath  : string
                 healthcheck : string
                 handler     : string
                 execWrapper : string

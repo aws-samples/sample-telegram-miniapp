@@ -30,6 +30,8 @@ export interface BackendStackProps {
     port                : number
     timeout             : number
     memorySize          : number
+    basepath           ?: string
+    staticpath         ?: string
     webAdaptor          : {
         x86             : string
         arm64           : string
@@ -219,11 +221,15 @@ export class Backend extends Construct {
 
             const doS3Deployment = (distribution: IDistribution | undefined ) => {
 
+                const cleanStatic = (props.staticpath || '').replace(/^\/+/, '').replace(/\/+$/, '')
+                const keyPrefix   = cleanStatic || undefined
+
                 new s3Deployment.BucketDeployment(this, 'WebDeployment', {
 
-                    distribution        : distribution,
-                    destinationBucket   : this.#bucket,
-                    sources             : [
+                    distribution            : distribution,
+                    destinationBucket       : this.#bucket,
+                    destinationKeyPrefix    : keyPrefix || undefined,
+                    sources                 : [
 
                         s3Deployment.Source.asset(guiStatic)
                     ],

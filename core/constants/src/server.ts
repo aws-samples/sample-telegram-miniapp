@@ -19,6 +19,7 @@ const user      = root_config as unknown as UserInputs & Metadata
 const root      = user.root
 const prefix    =`${clean_prefix(user.app.workshop).slice(0,16)}${clean_prefix(user.app.name)}`.slice(0,32)
 const basepath  ='/app'
+const staticpath='/static'
 const region    = cleanRegionString(user.aws.region) || cleanRegionString(process.env["AWS_REGION"]) || undefined
 const region_ai = cleanRegionString(user.bedrock.region) || region || cleanRegionString('us-east-1')!
 
@@ -180,7 +181,8 @@ export default {
             gui: {
 
                 package     : user.app.frontend,// pnpm workspace package name
-                basepath    : basepath,         // we use basepath offset as a first-line, basic filtering method for unwanted scanning traffic
+                basepath    : basepath,         // app routes prefix
+                staticpath  : staticpath,       // static assets prefix (S3)
                 healthcheck :`${basepath}/ok`,  // LWA: during Lambda init the LWA needs to check if you're web server is up and running
                 execWrapper : "/opt/bootstrap", // LWA: this is a requirement of LWA
                 handler     : "run.sh",         // LWA: entrypoint script name; this file should exist in your @gui/* code and also be included in "files":[ "run.sh" ] package.json field.

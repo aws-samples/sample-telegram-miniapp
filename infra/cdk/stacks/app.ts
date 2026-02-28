@@ -104,6 +104,8 @@ export class AppStack extends cdk.Stack {
             execWrapper         : $.artifacts.lambda.gui.execWrapper,
             healthcheck         : $.artifacts.lambda.gui.healthcheck,
             port                : $.artifacts.lambda.gui.port,
+            basepath            : $.artifacts.lambda.gui.basepath,
+            staticpath          : $.artifacts.lambda.gui.staticpath,
             webAdaptor          : {
                 x86             : $.aws.lambda.webadaptor.x86(this.region),
                 arm64           : $.aws.lambda.webadaptor.arm64(this.region),
@@ -121,7 +123,8 @@ export class AppStack extends cdk.Stack {
             firewall            : theGlobal.firewall,
             indexFile           :'index.html',
             geoRestrictions     : $.artifacts.cdn.geo.deny,
-            basepath            : $.artifacts.lambda.gui.basepath,            
+            basepath            : $.artifacts.lambda.gui.basepath,
+            staticpath          : $.artifacts.lambda.gui.staticpath,
             production          : $.artifacts.dev.production,
             domain              : $.artifacts.cdn.domain,
             certificate         : $.artifacts.cdn.certificate,

@@ -1,14 +1,18 @@
 import type { Config } from "@react-router/dev/config";
-import $               from "@core/constants"
-
-
+import $                from "@core/constants"
 
 export default {
 
-    ssr         : true,
-    prerender   : ["/"],
-    basename    : $.artifacts.lambda.gui.basepath || '/',
-    future      : {
+    ssr             : true,
+    basename        : $.artifacts.lambda.gui.basepath || '/',
+    prerender       : ["/"],
+    routeDiscovery  : {
+        // "initial" embeds all routes in the HTML — no __manifest request needed.
+        // This eliminates a Lambda call on client-side navigation and works
+        // cleanly with the S3-default CloudFront setup.
+        mode        : "initial"
+    },
+    future          : {
 
         v8_splitRouteModules: "enforce"
     }
